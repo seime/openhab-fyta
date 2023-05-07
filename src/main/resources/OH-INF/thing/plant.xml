@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="fyta"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<thing-type id="plant">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="account"/>
+		</supported-bridge-type-refs>
+
+		<label>Fyta Beam sensor </label>
+		<description>Fyta Beam sensor plant</description>
+		<category>Garden</category>
+
+		<channels>
+			<channel id="temperature-status" typeId="temperature-status"/>
+			<channel id="light-status" typeId="light-status"/>
+			<channel id="moisture-status" typeId="moisture-status"/>
+			<channel id="salinity-status" typeId="salinity-status"/>
+			<channel id="temperature" typeId="temperature"/>
+			<channel id="light" typeId="light"/>
+			<channel id="moisture" typeId="moisture"/>
+			<channel id="salinity" typeId="salinity"/>
+			<channel id="last-updated" typeId="last-updated"/>
+			<channel id="battery" typeId="battery"/>
+		</channels>
+
+
+		<representation-property>macAddress</representation-property>
+		<config-description-ref uri="thing-type:fyta:plant"/>
+	</thing-type>
+</thing:thing-descriptions>

@@ -1,0 +1,155 @@
+{
+  "plant": {
+    "id": 100000,
+    "nickname": "Ficus benjamina",
+    "scientific_name": "Ficus benjamina",
+    "genus": null,
+    "status": 2,
+    "plant_id": 201,
+    "is_shared": false,
+    "family_id": null,
+    "pot_size": null,
+    "owner": {},
+    "peers": [],
+    "soil_type_id": null,
+    "thumb_path": "https://api.prod.fyta-app.de/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+    "origin_path": "https://api.prod.fyta-app.de/user-plant/100000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
+    "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/1000000/thumb_1651708881307.jpeg",
+    "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/1000000/origin_1651708879897.jpeg",
+    "received_data_at": "2023-05-06 18:16:47",
+    "gathering_data": false,
+    "is_illegal": false,
+    "not_supported": false,
+    "sensor_update_available": false,
+    "garden": {
+      "id": 100000000,
+      "name": "Stue"
+    },
+    "sensor": {
+      "id": "MAC_ADDRESS1",
+      "has_sensor": true,
+      "status": 1,
+      "uuid_android": null,
+      "uuid_ios": null,
+      "version": "1.1.0",
+      "light_factor": "1.00",
+      "probe_length_id": 4,
+      "moisture_factor": "1.00",
+      "is_battery_low": false,
+      "received_data_at": "2123-05-06 18:16:47",
+      "created_at": "2023-04-09 16:20:38"
+    },
+    "hub": {
+      "id": 1000000001,
+      "hub_id": "HUB_MAC_ADDRESS",
+      "status": 1,
+      "received_data_at": "2023-05-06 18:16:47",
+      "reached_hub_at": "2023-05-06 18:54:40"
+    },
+    "missing": [
+      "light_factor_missing",
+      "moisture_factor_missing"
+    ],
+    "measurements": {
+      "ph": {
+        "status": 0,
+        "values": {
+          "min": "4",
+          "max": "7",
+          "current": "4"
+        },
+        "unit": "pH",
+        "absolute_values": {
+          "min": "0",
+          "max": "7.5",
+          "minText": "0",
+          "maxText": "7.5"
+        }
+      },
+      "temperature": {
+        "status": 3,
+        "values": {
+          "min_good": "17",
+          "max_good": "36",
+          "min_acceptable": "10",
+          "max_acceptable": "42",
+          "current": "21",
+          "currentFormatted": "21",
+          "optimal_hours": 24
+        },
+        "unit": "°C/h",
+        "absolute_values": {
+          "min": "0",
+          "max": "50",
+          "minText": "0",
+          "maxText": "50"
+        }
+      },
+      "light": {
+        "status": 2,
+        "values": {
+          "min_good": "0",
+          "max_good": "0",
+          "min_acceptable": "0",
+          "max_acceptable": "0",
+          "current": "1",
+          "currentFormatted": "1",
+          "optimal_hours": 0
+        },
+        "dli_values": {
+          "min_good": "0.25",
+          "max_good": "9",
+          "min_acceptable": "0.06",
+          "max_acceptable": "9"
+        },
+        "unit": "μmol/h",
+        "dli_unit": "mol/day",
+        "absolute_values": {
+          "min": "0",
+          "max": "40",
+          "minText": "0",
+          "maxText": "40"
+        }
+      },
+      "moisture": {
+        "status": 3,
+        "values": {
+          "min_good": "35",
+          "max_good": "70",
+          "min_acceptable": "25",
+          "max_acceptable": "80",
+          "current": "52",
+          "currentFormatted": "52"
+        },
+        "unit": "%/h",
+        "absolute_values": {
+          "min": "0",
+          "max": "85",
+          "minText": "0",
+          "maxText": "85"
+        }
+      },
+      "salinity": {
+        "status": 1,
+        "values": {
+          "min_good": "0.6",
+          "max_good": "1",
+          "min_acceptable": "0.4",
+          "max_acceptable": "1.2",
+          "current": "0",
+          "currentFormatted": "0.32"
+        },
+        "unit": "mS/h",
+        "absolute_values": {
+          "min": "0",
+          "max": "1.4",
+          "minText": "0",
+          "maxText": "1.4"
+        }
+      },
+      "battery": "100"
+    },
+    "temperature_unit": 1,
+    "know_hows": []
+  }
+}

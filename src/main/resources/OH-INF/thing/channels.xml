@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="fyta"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+
+	<channel-type id="temperature-status">
+		<item-type>String</item-type>
+		<label>Temperature status</label>
+		<category>QualityOfService</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="light-status">
+		<item-type>String</item-type>
+		<label>Light status</label>
+		<category>QualityOfService</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="moisture-status">
+		<item-type>String</item-type>
+		<label>Moisture status</label>
+		<category>QualityOfService</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="salinity-status">
+		<item-type>String</item-type>
+		<label>Salinity status</label>
+		<category>QualityOfService</category>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>Temperature average last hour</label>
+		<category>Temperature</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="light">
+		<item-type>Number</item-type>
+		<label>Amount of sunlight μmol last hour</label>
+		<category>Sun</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="moisture">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Measured water content average last hour</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="salinity">
+		<item-type>Number</item-type>
+		<label>Measured soil salinity mS average last hour</label>
+		<category>Water</category>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="battery">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Battery</label>
+		<category>BatteryLevel</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="last-updated">
+		<item-type>DateTime</item-type>
+		<label>Last reported sensor data</label>
+		<category>Time</category>
+		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+</thing:thing-descriptions>

@@ -1,0 +1,7 @@
+{
+  "access_token": "XXXXAccessToken",
+  "token_type": "Bearer",
+  "expires_in": 5184000,
+  "refresh_token": "XXXXRefreshToken",
+  "scope": "mobile"
+}

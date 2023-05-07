@@ -1,0 +1,134 @@
+{
+  "gardens": [
+    {
+      "id": 100000000,
+      "garden_name": "Stue",
+      "origin_path": null,
+      "thumb_path": null,
+      "mac_address": null
+    }
+  ],
+  "plants": [
+    {
+      "id": 100000,
+      "nickname": "Ficus benjamina",
+      "scientific_name": "Ficus benjamina",
+      "common_name": "Weeping Fig",
+      "status": 2,
+      "plant_id": 201,
+      "family_id": null,
+      "is_shared": false,
+      "owner": {},
+      "peers": [],
+      "wifi_status": 1,
+      "thumb_path": "https://api.prod.fyta-app.de/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+      "origin_path": "https://api.prod.fyta-app.de/user-plant/100000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
+      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/1000000/thumb_1651708881307.jpeg",
+      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/1000000/origin_1651708879897.jpeg",
+      "received_data_at": "2023-05-06 17:05:56",
+      "temperature_optimal_hours": 24,
+      "light_optimal_hours": 0,
+      "temperature_status": 3,
+      "light_status": 2,
+      "moisture_status": 3,
+      "salinity_status": 1,
+      "has_remote_hub": false,
+      "has_remote_sensor": false,
+      "garden": {
+        "id": 100000000
+      },
+      "sensor": {
+        "id": "MAC_ADDRESS1",
+        "has_sensor": true,
+        "status": 1,
+        "uuid_android": null,
+        "uuid_ios": null,
+        "version": "1.1.0",
+        "is_battery_low": false,
+        "received_data_at": "2023-05-06 17:05:56"
+      },
+      "hub": {
+        "id": 1000000001,
+        "hub_id": "HUB_MAC_ADDRESS",
+        "status": 1,
+        "received_data_at": "2023-05-06 17:05:56",
+        "reached_hub_at": "2023-05-06 17:51:19"
+      }
+    },
+    {
+      "id": 2000000,
+      "nickname": "Monstera deliciosa trapp",
+      "scientific_name": "Monstera deliciosa",
+      "common_name": "Swiss Cheese Plant",
+      "status": 2,
+      "plant_id": 261,
+      "family_id": null,
+      "is_shared": false,
+      "owner": {},
+      "peers": [],
+      "wifi_status": 1,
+      "thumb_path": "https://api.prod.fyta-app.de/user-plant/2000000/thumb_path?timestamp=2023-04-09%2016%3A25%3A27",
+      "origin_path": "https://api.prod.fyta-app.de/user-plant/2000000/origin_path?timestamp=2023-04-09%2016%3A25%3A27",
+      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/20000000/thumb_1651708883021.jpeg",
+      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/20000000/origin_1651708881252.jpeg",
+      "received_data_at": "2023-05-06 17:06:54",
+      "temperature_optimal_hours": 24,
+      "light_optimal_hours": 0,
+      "temperature_status": 3,
+      "light_status": 1,
+      "moisture_status": 3,
+      "salinity_status": 1,
+      "has_remote_hub": false,
+      "has_remote_sensor": false,
+      "garden": null,
+      "sensor": {
+        "id": "MAC_ADDRESS2",
+        "has_sensor": true,
+        "status": 1,
+        "uuid_android": null,
+        "uuid_ios": null,
+        "version": "1.1.0",
+        "is_battery_low": false,
+        "received_data_at": "2023-05-06 17:06:54"
+      },
+      "hub": {
+        "id": 1000000001,
+        "hub_id": "HUB_MAC_ADDRESS",
+        "status": 1,
+        "received_data_at": "2023-05-06 17:06:54",
+        "reached_hub_at": "2023-05-06 17:51:19"
+      }
+    }
+  ,
+    {
+      "id": 17590,
+      "nickname": "Calathea ornata (sensorless) ",
+      "scientific_name": "Calathea ornata ",
+      "common_name": "Pin-Stripe Calathea",
+      "status": 3,
+      "plant_id": 70,
+      "family_id": null,
+      "is_shared": false,
+      "owner": {},
+      "peers": [],
+      "wifi_status": 2,
+      "thumb_path": null,
+      "origin_path": "https://api.prod.fyta-app.de/user-plant/17590/origin_path?timestamp=2023-05-08%2007%3A56%3A04",
+      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/4848/thumb_1651708834285.jpeg",
+      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/4848/origin_1651708831353.jpeg",
+      "received_data_at": null,
+      "temperature_optimal_hours": null,
+      "light_optimal_hours": null,
+      "temperature_status": 0,
+      "light_status": 0,
+      "moisture_status": 0,
+      "salinity_status": 0,
+      "has_remote_hub": false,
+      "has_remote_sensor": false,
+      "garden": null,
+      "sensor": null,
+      "hub": null
+    }
+  ],
+  "hubs_with_lost_connection": []
+}
