@@ -146,36 +146,78 @@ class FytaPlantHandlerTest {
 
         Thread.sleep(2000);
 
-        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_BATTERY),
-                new QuantityType<>(100, Units.PERCENT));
-        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LAST_UPDATED),
-                new DateTimeType(ZonedDateTime.parse("2023-05-06T18:16:47Z")));
+        // Temp
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_STATUS),
                 new StringType(Status.PERFECT.toString()));
-        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LIGHT_STATUS),
-                new StringType(Status.LOW.toString()));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE),
+                new QuantityType<>(21, SIUnits.CELSIUS));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MIN_ACCEPTABLE),
+                new QuantityType<>(10, SIUnits.CELSIUS));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MIN_GOOD),
+                new QuantityType<>(17, SIUnits.CELSIUS));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MAX_GOOD),
+                new QuantityType<>(36, SIUnits.CELSIUS));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MAX_ACCEPTABLE),
+                new QuantityType<>(42, SIUnits.CELSIUS));
+
+        // Moisture
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_STATUS),
                 new StringType(Status.PERFECT.toString()));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE),
+                new QuantityType<>(52, Units.PERCENT));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_MIN_ACCEPTABLE),
+                new QuantityType<>(25, Units.PERCENT));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_MIN_GOOD),
+                new QuantityType<>(35, Units.PERCENT));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_MAX_GOOD),
+                new QuantityType<>(70, Units.PERCENT));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_MAX_ACCEPTABLE),
+                new QuantityType<>(80, Units.PERCENT));
+
+        // Salinity
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_STATUS),
                 new StringType(Status.TOO_LOW.toString()));
-        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE),
-                new QuantityType<>(21, SIUnits.CELSIUS));
-        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LIGHT),
-                new DecimalType(1));
-        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE),
-                new QuantityType<>(52, Units.PERCENT));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY),
                 new DecimalType(0.32));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_ACCEPTABLE), new DecimalType(0.4));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_GOOD), new DecimalType(0.6));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_GOOD), new DecimalType(1));
+        verify(thingHandlerCallback).stateUpdated(
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_ACCEPTABLE), new DecimalType(1.2));
+
+        // Light
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LIGHT_STATUS),
+                new StringType(Status.LOW.toString()));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LIGHT),
+                new DecimalType(1));
+
+        // Other
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_NICKNAME),
                 new StringType("Ficus benjamina"));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_THUMBNAIL),
                 new RawType("image".getBytes(StandardCharsets.UTF_8), "image/png"));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_BATTERY),
+                new QuantityType<>(100, Units.PERCENT));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LAST_UPDATED),
+                new DateTimeType(ZonedDateTime.parse("2023-05-06T18:16:47Z")));
     }
 
-    private ThingImpl createThing() {
+    private Thing createThing() {
+
         ThingImpl plantThing = new ThingImpl(BindingConstants.THING_TYPE_PLANT, "100000");
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_NICKNAME)).build());
@@ -185,22 +227,53 @@ class FytaPlantHandlerTest {
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_BATTERY)).build());
         plantThing.addChannel(ChannelBuilder
                 .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_LAST_UPDATED)).build());
+
         plantThing.addChannel(ChannelBuilder
                 .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_STATUS)).build());
         plantThing.addChannel(ChannelBuilder
-                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_LIGHT_STATUS)).build());
-        plantThing.addChannel(ChannelBuilder
-                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE_STATUS)).build());
-        plantThing.addChannel(ChannelBuilder
-                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY_STATUS)).build());
-        plantThing.addChannel(ChannelBuilder
                 .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_TEMPERATURE)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MIN_ACCEPTABLE))
+                .build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MIN_GOOD)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MAX_GOOD)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MAX_ACCEPTABLE))
+                .build());
+
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_LIGHT_STATUS)).build());
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_LIGHT)).build());
+
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE_STATUS)).build());
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE_MIN_ACCEPTABLE)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE_MIN_GOOD)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE_MAX_GOOD)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_MOISTURE_MAX_ACCEPTABLE)).build());
+
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY_STATUS)).build());
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_ACCEPTABLE)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_GOOD)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_GOOD)).build());
+        plantThing.addChannel(ChannelBuilder
+                .create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_ACCEPTABLE)).build());
+
         plantThing.setConfiguration(configuration);
         return plantThing;
     }

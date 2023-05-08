@@ -204,39 +204,8 @@ public class FytaPlantHandler extends BaseThingHandler {
     private void updateChannel(Plant plant, ChannelUID channelUID) {
         logger.debug("[{}] Updating channel {}", macAddress, channelUID);
         switch (channelUID.getId()) {
-            case BindingConstants.CHANNEL_TEMPERATURE:
-                updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.current,
-                        plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
-                break;
-            case BindingConstants.CHANNEL_LIGHT:
-                updateState(channelUID, new DecimalType(plant.measurements.light.values.current));
-                break;
-            case BindingConstants.CHANNEL_MOISTURE:
-                updateState(channelUID, new QuantityType<>(plant.measurements.moisture.values.current, Units.PERCENT));
-                break;
-            case BindingConstants.CHANNEL_SALINITY:
-                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.currentFormatted));
-                break;
-            case BindingConstants.CHANNEL_TEMPERATURE_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.temperature.status.toString()));
-                break;
-            case BindingConstants.CHANNEL_LIGHT_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.light.status.toString()));
-                break;
-            case BindingConstants.CHANNEL_MOISTURE_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.moisture.status.toString()));
-                break;
-            case BindingConstants.CHANNEL_SALINITY_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.salinity.status.toString()));
-                break;
             case BindingConstants.CHANNEL_NICKNAME:
                 updateState(channelUID, new StringType(plant.nickname));
-                break;
-            case BindingConstants.CHANNEL_BATTERY:
-                updateState(channelUID, new QuantityType<>(plant.measurements.battery, Units.PERCENT));
-                break;
-            case BindingConstants.CHANNEL_LAST_UPDATED:
-                updateState(channelUID, new DateTimeType(plant.receivedDataAt));
                 break;
             case BindingConstants.CHANNEL_THUMBNAIL:
                 String cachedThumbnailUrl = storage.get(STORAGE_KEY_THUMBNAIL);
@@ -256,6 +225,88 @@ public class FytaPlantHandler extends BaseThingHandler {
                 } else {
                     storage.remove(STORAGE_KEY_THUMBNAIL);
                 }
+                break;
+
+            // Temperature
+            case BindingConstants.CHANNEL_TEMPERATURE_STATUS:
+                updateState(channelUID, new StringType(plant.measurements.temperature.status.toString()));
+                break;
+            case BindingConstants.CHANNEL_TEMPERATURE:
+                updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.current,
+                        plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
+            case BindingConstants.CHANNEL_TEMPERATURE_MIN_ACCEPTABLE:
+                updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.minAcceptable,
+                        plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
+                break;
+            case BindingConstants.CHANNEL_TEMPERATURE_MIN_GOOD:
+                updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.minGood,
+                        plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
+                break;
+            case BindingConstants.CHANNEL_TEMPERATURE_MAX_GOOD:
+                updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.maxGood,
+                        plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
+                break;
+            case BindingConstants.CHANNEL_TEMPERATURE_MAX_ACCEPTABLE:
+                updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.maxAcceptable,
+                        plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
+                break;
+
+            // Light
+            case BindingConstants.CHANNEL_LIGHT_STATUS:
+                updateState(channelUID, new StringType(plant.measurements.light.status.toString()));
+                break;
+            case BindingConstants.CHANNEL_LIGHT:
+                updateState(channelUID, new DecimalType(plant.measurements.light.values.current));
+                break;
+
+            // Moisture
+            case BindingConstants.CHANNEL_MOISTURE_STATUS:
+                updateState(channelUID, new StringType(plant.measurements.moisture.status.toString()));
+                break;
+            case BindingConstants.CHANNEL_MOISTURE:
+                updateState(channelUID, new QuantityType<>(plant.measurements.moisture.values.current, Units.PERCENT));
+                break;
+            case BindingConstants.CHANNEL_MOISTURE_MIN_ACCEPTABLE:
+                updateState(channelUID,
+                        new QuantityType<>(plant.measurements.moisture.values.minAcceptable, Units.PERCENT));
+                break;
+            case BindingConstants.CHANNEL_MOISTURE_MIN_GOOD:
+                updateState(channelUID, new QuantityType<>(plant.measurements.moisture.values.minGood, Units.PERCENT));
+                break;
+            case BindingConstants.CHANNEL_MOISTURE_MAX_GOOD:
+                updateState(channelUID, new QuantityType<>(plant.measurements.moisture.values.maxGood, Units.PERCENT));
+                break;
+            case BindingConstants.CHANNEL_MOISTURE_MAX_ACCEPTABLE:
+                updateState(channelUID,
+                        new QuantityType<>(plant.measurements.moisture.values.maxAcceptable, Units.PERCENT));
+                break;
+
+            // Salinity
+            case BindingConstants.CHANNEL_SALINITY_STATUS:
+                updateState(channelUID, new StringType(plant.measurements.salinity.status.toString()));
+                break;
+            case BindingConstants.CHANNEL_SALINITY:
+                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.currentFormatted));
+                break;
+            case BindingConstants.CHANNEL_SALINITY_MIN_ACCEPTABLE:
+                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.minAcceptable));
+                break;
+            case BindingConstants.CHANNEL_SALINITY_MIN_GOOD:
+                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.minGood));
+                break;
+            case BindingConstants.CHANNEL_SALINITY_MAX_GOOD:
+                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.maxGood));
+                break;
+            case BindingConstants.CHANNEL_SALINITY_MAX_ACCEPTABLE:
+                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.maxAcceptable));
+                break;
+
+            // Other
+            case BindingConstants.CHANNEL_BATTERY:
+                updateState(channelUID, new QuantityType<>(plant.measurements.battery, Units.PERCENT));
+                break;
+            case BindingConstants.CHANNEL_LAST_UPDATED:
+                updateState(channelUID, new DateTimeType(plant.receivedDataAt));
                 break;
             default:
                 logger.warn("Unhandled channel {}", channelUID);
