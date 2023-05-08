@@ -37,6 +37,8 @@ public class Measurement {
         public String maxAcceptable;
 
         public double current;
+
+        public String currentFormatted;
         @SerializedName("optimal_hours")
         public int optimalHours;
     }
