@@ -41,12 +41,20 @@ jobs:
           !~/.m2/repository/no/seime
         key: maven-${{ hashFiles('**/pom.xml') }}
 
-    - name: Publish package
-      run: mvn --batch-mode -DskipChecks deploy
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build
+      run: mvn --batch-mode -DskipChecks package
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          target/*.jar
 
     - name: Save cache
+      if: ${{always()}}
       uses: actions/cache/save@v3
       with:
         path: |
