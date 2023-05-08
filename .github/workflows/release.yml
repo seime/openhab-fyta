@@ -36,7 +36,7 @@ jobs:
         path: |
           ~/.m2/repository
           !~/.m2/repository/no/seime
-        key: maven-${{ hashFiles('**/pom.xml') }}
+        key: maven
 
     - name: Build
       run: mvn --batch-mode -DskipChecks package
@@ -56,4 +56,4 @@ jobs:
       with:
         path: |
           ~/.m2/repository
-        key: maven-${{ hashFiles('**/pom.xml') }}
+        key: maven
