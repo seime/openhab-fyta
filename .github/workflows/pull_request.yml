@@ -15,7 +15,7 @@ on:
     branches: [ "master" ]
   push:
     branches:
-    - !master
+    - "!master"
 
 jobs:
   call-build:
