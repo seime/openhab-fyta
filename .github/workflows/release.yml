@@ -17,6 +17,7 @@ jobs:
   call-build:
     uses: ./.github/workflows/build.yml
   publish:
+    needs: call-build
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,6 +29,6 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: Publish package
-      run: mvn --batch-mode deploy
+      run: mvn --batch-mode -DskipChecks deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
