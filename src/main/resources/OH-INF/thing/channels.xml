@@ -5,6 +5,13 @@
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
 
+	<channel-type id="thumbnail">
+		<item-type>Image</item-type>
+		<label>Thumbnail image of plant</label>
+		<category>Garden</category>
+		<state readOnly="true"/>
+	</channel-type>
+
 	<channel-type id="temperature-status">
 		<item-type>String</item-type>
 		<label>Temperature status</label>

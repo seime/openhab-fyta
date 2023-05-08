@@ -25,6 +25,7 @@
 			<channel id="salinity" typeId="salinity"/>
 			<channel id="last-updated" typeId="last-updated"/>
 			<channel id="battery" typeId="battery"/>
+			<channel id="thumbnail" typeId="thumbnail"/>
 		</channels>
 
 

@@ -11,6 +11,8 @@ This binding links [Fyta Beam plant sensors](https://fyta.de/en) via the cloud.
 * `account` = Fyta account
 * `plant` = A plant with a Fyta Beam sensor 
 
+>Not tested sensors *without* a hub. If you have this, please enable DEBUG logging and send details to author. 
+
 ## Discovery
 
 Create a `account` bridge and perform discovery. Your registered plants with Beam sensors will appear.
@@ -34,18 +36,19 @@ To find the `macAddress`, add the bridge and let it discover your locks.
 
 Also see Thing properties. Plant names etc can be found there.
 
-| Channel            | Type                 | Read/Write | Description                                                            |
-|--------------------|----------------------|------------|------------------------------------------------------------------------|
-| `temperature-status` | `String`              | R | Plant happyness with temperature. See plant happyness codes below      |
+| Channel              | Type                   | Read/Write | Description                                                            |
+|----------------------|------------------------|------------|------------------------------------------------------------------------|
+| `temperature-status` | `String`               | R | Plant happyness with temperature. See plant happyness codes below      |
 | `light-status`       | `String`               | R | Plant happyness with light conditions. See plant happyness codes below |
 | `moisture-status`    | `String`               | R | Plant happyness with soil moisture. See plant happyness codes below    |
 | `salinity-status`    | `String`               | R | Plant happyness with soil salinity. See plant happyness codes below    |
 | `temperature`        | `Number:Temperature`   | R | Average temperature last hour                                          |
 | `light`              | `Number`               | R | Average light amount last hour                                         |
-| `moisture`           | `Number:Dimensionless`      | R | Average soil moisture/humidity last hour                               |
+| `moisture`           | `Number:Dimensionless` | R | Average soil moisture/humidity last hour                               |
 | `salinity`           | `Number`               | R | Average soil salinity last hour                                        |
 | `battery`            | `Number:Dimensionless` | R | Remaining battery percentage                                           |
 | `last-updated`       | `DateTime`             | R | Last data received from sensor                                         |
+| `thumbnail`          | `Image`                | R | Thumbnail image of plant (provided by user)                            |
 
 ### Plant happyness codes
 
@@ -80,7 +83,8 @@ String Sensor_Fyta_1_Status_Light "Palm light status" <QualityOfService>        
 String Sensor_Fyta_1_Status_Moisture "Palm moisture status" <QualityOfService>       {channel="fyta:plant:account:beam_1:moisture-status"}
 String Sensor_Fyta_1_Status_Salinity "Palm salinity status" <QualityOfService>       {channel="fyta:plant:account:beam_1:salinity-status"}
 
-// Battery and 
+// Battery, thumbnail and sensor last updated timestamp
 Number:Dimensionless Sensor_Fyta_1_Battery "Palm" <battery>                          {channel="fyta:plant:account:beam_1:battery"}
 DateTime Sensor_Fyta_1_Last_Updated "Palm last updated" <time>                       {channel="fyta:plant:account:beam_1:last-updated"}
+Image Sensor_Fyta_1_Thumbnail "Palm image" <image>                                   {channel="fyta:plant:account:beam_1:lthumbnail"}
 ```

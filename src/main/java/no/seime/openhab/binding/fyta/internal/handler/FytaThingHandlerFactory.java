@@ -75,7 +75,7 @@ public class FytaThingHandlerFactory extends BaseThingHandlerFactory {
     protected @Nullable ThingHandler createHandler(final Thing thing) {
         final ThingTypeUID thingTypeUID = thing.getThingTypeUID();
         if (BindingConstants.THING_TYPE_PLANT.equals(thingTypeUID)) {
-            return new FytaPlantHandler(thing);
+            return new FytaPlantHandler(thing, storageService.getStorage(thing.getUID().toString()));
         } else if (BindingConstants.THING_TYPE_ACCOUNT.equals(thingTypeUID)) {
             RestApiClient restApiClient = new RestApiClient(httpClient, gson);
             FytaAccountHandler accountHandler = new FytaAccountHandler((Bridge) thing, restApiClient);

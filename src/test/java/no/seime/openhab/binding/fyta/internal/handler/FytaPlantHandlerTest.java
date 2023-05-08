@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 
 import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.http.HttpHeader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,7 @@ import org.openhab.core.config.core.Configuration;
 import org.openhab.core.library.types.DateTimeType;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.QuantityType;
+import org.openhab.core.library.types.RawType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.unit.SIUnits;
 import org.openhab.core.library.unit.Units;
@@ -97,6 +99,7 @@ class FytaPlantHandlerTest {
         int port = wireMockServer.port();
         WireMock.configureFor("localhost", port);
         RestApiClient.API_ENDPOINT = "http://localhost:" + port + "/api";
+        RestApiClient.IMAGE_ENDPOINT = "http://localhost:" + port;
 
         httpClient = new HttpClient();
         httpClient.start();
@@ -110,7 +113,7 @@ class FytaPlantHandlerTest {
         when(configuration.as(PlantConfiguration.class)).thenReturn(plantConfiguration);
 
         thing = createThing();
-        plantHandler = Mockito.spy(new FytaPlantHandler(thing));
+        plantHandler = Mockito.spy(new FytaPlantHandler(thing, new VolatileStorage<>()));
         thingHandlerCallback = Mockito.mock(ThingHandlerCallback.class);
         plantHandler.setCallback(thingHandlerCallback);
 
@@ -136,6 +139,8 @@ class FytaPlantHandlerTest {
 
         // Setup get lock response
         prepareGetNetworkResponse("/api/user-plant/100000", "/mock_responses/get_plant_details_response.json", 200);
+        prepareGetNetworkResponse("/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+                "image".getBytes(StandardCharsets.UTF_8), "image/png", 200);
 
         plantHandler.initialize();
 
@@ -164,10 +169,14 @@ class FytaPlantHandlerTest {
                 new QuantityType<>(52, Units.PERCENT));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY),
                 new DecimalType(0.32));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_THUMBNAIL),
+                new RawType("image".getBytes(StandardCharsets.UTF_8), "image/png"));
     }
 
     private ThingImpl createThing() {
         ThingImpl plantThing = new ThingImpl(BindingConstants.THING_TYPE_PLANT, "100000");
+        plantThing.addChannel(
+                ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_THUMBNAIL)).build());
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_BATTERY)).build());
         plantThing.addChannel(ChannelBuilder
@@ -196,6 +205,12 @@ class FytaPlantHandlerTest {
             throws IOException {
         stubFor(get(urlEqualTo(urlPath))
                 .willReturn(aResponse().withStatus(responseCode).withBody(getClasspathJSONContent(responseResource))));
+    }
+
+    private void prepareGetNetworkResponse(String urlPath, byte[] responseContent, String contentType, int responseCode)
+            throws IOException {
+        stubFor(get(urlEqualTo(urlPath)).willReturn(aResponse().withStatus(responseCode)
+                .withHeader(HttpHeader.CONTENT_TYPE.asString(), contentType).withBody(responseContent)));
     }
 
     private String getClasspathJSONContent(String path) throws IOException {
