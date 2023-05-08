@@ -23,9 +23,6 @@ jobs:
         os: [ 'ubuntu-20.04' ]
     name: Build (Java ${{ matrix.java }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
-      packages: write
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
