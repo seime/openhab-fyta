@@ -163,7 +163,7 @@ class FytaPlantHandlerTest {
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE),
                 new QuantityType<>(52, Units.PERCENT));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY),
-                new DecimalType(0));
+                new DecimalType(0.32));
     }
 
     private ThingImpl createThing() {
