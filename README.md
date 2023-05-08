@@ -38,6 +38,8 @@ Also see Thing properties. Plant names etc can be found there.
 
 | Channel              | Type                   | Read/Write | Description                                                            |
 |----------------------|------------------------|------------|------------------------------------------------------------------------|
+| `nickname`           | `String`               | R | User provided plant nickname                                           |
+| `thumbnail`          | `Image`                | R | Thumbnail image of plant (provided by user)                            |
 | `temperature-status` | `String`               | R | Plant happyness with temperature. See plant happyness codes below      |
 | `light-status`       | `String`               | R | Plant happyness with light conditions. See plant happyness codes below |
 | `moisture-status`    | `String`               | R | Plant happyness with soil moisture. See plant happyness codes below    |
@@ -48,7 +50,6 @@ Also see Thing properties. Plant names etc can be found there.
 | `salinity`           | `Number`               | R | Average soil salinity last hour                                        |
 | `battery`            | `Number:Dimensionless` | R | Remaining battery percentage                                           |
 | `last-updated`       | `DateTime`             | R | Last data received from sensor                                         |
-| `thumbnail`          | `Image`                | R | Thumbnail image of plant (provided by user)                            |
 
 ### Plant happyness codes
 
@@ -71,6 +72,9 @@ Bridge fyta:account:account  "Fyta Account Bridge" [ email="***********", passwo
 ### Item Configuration
 
 ```
+String Sensor_Fyta_1_Name "Palm image" <image>                                       {channel="fyta:plant:account:beam_1:nickname"}
+Image Sensor_Fyta_1_Thumbnail "Palm image" <image>                                   {channel="fyta:plant:account:beam_1:lthumbnail"}
+
 // Actual values
 Number:Temperature Sensor_Fyta_1_Temperature "Palm temp [%d %unit%]" <temperature>   {channel="fyta:plant:account:beam_1:temperature"}
 Number Sensor_Fyta_1_Light "Palm sunlight" <sun>                                     {channel="fyta:plant:account:beam_1:light"}
@@ -83,8 +87,6 @@ String Sensor_Fyta_1_Status_Light "Palm light status" <QualityOfService>        
 String Sensor_Fyta_1_Status_Moisture "Palm moisture status" <QualityOfService>       {channel="fyta:plant:account:beam_1:moisture-status"}
 String Sensor_Fyta_1_Status_Salinity "Palm salinity status" <QualityOfService>       {channel="fyta:plant:account:beam_1:salinity-status"}
 
-// Battery, thumbnail and sensor last updated timestamp
 Number:Dimensionless Sensor_Fyta_1_Battery "Palm" <battery>                          {channel="fyta:plant:account:beam_1:battery"}
 DateTime Sensor_Fyta_1_Last_Updated "Palm last updated" <time>                       {channel="fyta:plant:account:beam_1:last-updated"}
-Image Sensor_Fyta_1_Thumbnail "Palm image" <image>                                   {channel="fyta:plant:account:beam_1:lthumbnail"}
 ```

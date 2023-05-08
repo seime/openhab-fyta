@@ -15,6 +15,8 @@
 		<category>Garden</category>
 
 		<channels>
+			<channel id="nickname" typeId="nickname"/>
+			<channel id="thumbnail" typeId="thumbnail"/>
 			<channel id="temperature-status" typeId="temperature-status"/>
 			<channel id="light-status" typeId="light-status"/>
 			<channel id="moisture-status" typeId="moisture-status"/>
@@ -25,7 +27,6 @@
 			<channel id="salinity" typeId="salinity"/>
 			<channel id="last-updated" typeId="last-updated"/>
 			<channel id="battery" typeId="battery"/>
-			<channel id="thumbnail" typeId="thumbnail"/>
 		</channels>
 
 

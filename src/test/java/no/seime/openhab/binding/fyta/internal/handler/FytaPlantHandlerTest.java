@@ -169,12 +169,16 @@ class FytaPlantHandlerTest {
                 new QuantityType<>(52, Units.PERCENT));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY),
                 new DecimalType(0.32));
+        verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_NICKNAME),
+                new StringType("Ficus benjamina"));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_THUMBNAIL),
                 new RawType("image".getBytes(StandardCharsets.UTF_8), "image/png"));
     }
 
     private ThingImpl createThing() {
         ThingImpl plantThing = new ThingImpl(BindingConstants.THING_TYPE_PLANT, "100000");
+        plantThing.addChannel(
+                ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_NICKNAME)).build());
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_THUMBNAIL)).build());
         plantThing.addChannel(

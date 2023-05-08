@@ -68,14 +68,8 @@ public class Plant {
         Map<String, String> properties = new HashMap<>();
         properties.put("nickname", nickname);
         properties.put("scientificName", scientificName);
-        properties.put("macAddress", sensor.macAddress);
         properties.put("firmwareVersion", sensor.firmwareVersion);
-        if (userThumbnailPath != null) {
-            properties.put("userThumbnailPath", userThumbnailPath);
-        }
-        if (userOriginalPath != null) {
-            properties.put("userOriginalPath", userOriginalPath);
-        }
+
         return properties;
     }
 }

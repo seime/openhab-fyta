@@ -41,4 +41,5 @@ public class BindingConstants {
     public static final String CHANNEL_BATTERY = "battery";
     public static final String CHANNEL_LAST_UPDATED = "last-updated";
     public static final String CHANNEL_THUMBNAIL = "thumbnail";
+    public static final String CHANNEL_NICKNAME = "nickname";
 }
