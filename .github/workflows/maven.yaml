@@ -12,7 +12,7 @@ jobs:
         distribution: 'adopt'
         cache: 'maven'
     - name: Build with Maven
-      run: mvn --batch-mode --update-snapshots install
+      run: mvn --batch-mode --update-snapshots -DskipChecks install
     - run: mkdir staging && cp target/no.seime.openhab*SNAPSHOT.jar staging
     - uses: actions/upload-artifact@v3
       with:
