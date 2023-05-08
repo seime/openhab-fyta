@@ -30,13 +30,13 @@ jobs:
       with:
         java-version: ${{matrix.java}}
         distribution: 'temurin'
-    - name: Restore cache
-      uses: actions/cache/restore@v3
+    - name: Cache local Maven repository
+      uses: actions/cache@v3
       with:
-        path: |
-          ~/.m2/repository
-          !~/.m2/repository/no/seime
-        key: maven
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
 
     - name: Build
       run: mvn --batch-mode -DskipChecks package
@@ -49,11 +49,3 @@ jobs:
         title: "Development Build"
         files: |
           target/*.jar
-
-    - name: Save cache
-      if: ${{always()}}
-      uses: actions/cache/save@v3
-      with:
-        path: |
-          ~/.m2/repository
-        key: maven
