@@ -5,35 +5,62 @@
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
 
+	<channel-type id="nickname">
+		<item-type>String</item-type>
+		<label>User given plant name</label>
+		<category>Garden</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="thumbnail">
+		<item-type>Image</item-type>
+		<label>Thumbnail image of plant</label>
+		<category>Garden</category>
+		<state readOnly="true"/>
+	</channel-type>
+
 	<channel-type id="temperature-status">
 		<item-type>String</item-type>
 		<label>Temperature status</label>
 		<category>QualityOfService</category>
 		<state readOnly="true"/>
 	</channel-type>
-	<channel-type id="light-status">
-		<item-type>String</item-type>
-		<label>Light status</label>
-		<category>QualityOfService</category>
-		<state readOnly="true"/>
-	</channel-type>
-	<channel-type id="moisture-status">
-		<item-type>String</item-type>
-		<label>Moisture status</label>
-		<category>QualityOfService</category>
-		<state readOnly="true"/>
-	</channel-type>
-	<channel-type id="salinity-status">
-		<item-type>String</item-type>
-		<label>Salinity status</label>
-		<category>QualityOfService</category>
-		<state readOnly="true"/>
-	</channel-type>
-
 	<channel-type id="temperature">
 		<item-type>Number:Temperature</item-type>
 		<label>Temperature average last hour</label>
 		<category>Temperature</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="temperature-min-acceptable">
+		<item-type>Number:Temperature</item-type>
+		<label>Minimum acceptable temperature for plant. Keep above</label>
+		<category>Temperature</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="temperature-min-good">
+		<item-type>Number:Temperature</item-type>
+		<label>Minimum "good" temperature for plant</label>
+		<category>Temperature</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="temperature-max-good">
+		<item-type>Number:Temperature</item-type>
+		<label>Maximum "good" temperature for plant</label>
+		<category>Temperature</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="temperature-max-acceptable">
+		<item-type>Number:Temperature</item-type>
+		<label>Maximum acceptable temperature for plant. Keep below.</label>
+		<category>Temperature</category>
+		<state readOnly="true"/>
+	</channel-type>
+
+
+
+	<channel-type id="light-status">
+		<item-type>String</item-type>
+		<label>Light status</label>
+		<category>QualityOfService</category>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="light">
@@ -42,16 +69,79 @@
 		<category>Sun</category>
 		<state readOnly="true"/>
 	</channel-type>
+
+	<channel-type id="moisture-status">
+		<item-type>String</item-type>
+		<label>Moisture status</label>
+		<category>QualityOfService</category>
+		<state readOnly="true"/>
+	</channel-type>
 	<channel-type id="moisture">
 		<item-type>Number:Dimensionless</item-type>
 		<label>Measured water content average last hour</label>
 		<category>Humidity</category>
 		<state readOnly="true"/>
 	</channel-type>
+	<channel-type id="moisture-min-acceptable">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Minimum acceptable soil moisture for plant. Keep above</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="moisture-min-good">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Minimum "good" soil moisture for plant</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="moisture-max-good">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Maximum "good" soil moisture for plant</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="moisture-max-acceptable">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Maximum acceptable soil moisture for plant. Keep below.</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+
+
+	<channel-type id="salinity-status">
+		<item-type>String</item-type>
+		<label>Salinity status</label>
+		<category>QualityOfService</category>
+		<state readOnly="true"/>
+	</channel-type>
 	<channel-type id="salinity">
 		<item-type>Number</item-type>
 		<label>Measured soil salinity mS average last hour</label>
 		<category>Water</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="salinity-min-acceptable">
+		<item-type>Number</item-type>
+		<label>Minimum acceptable soil salinity for plant. Keep above</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="salinity-min-good">
+		<item-type>Number</item-type>
+		<label>Minimum "good" soil salinity for plant</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="salinity-max-good">
+		<item-type>Number</item-type>
+		<label>Maximum "good" soil salinity for plant</label>
+		<category>Humidity</category>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="salinity-max-acceptable">
+		<item-type>Number</item-type>
+		<label>Maximum acceptable soil salinity for plant. Keep below.</label>
+		<category>Humidity</category>
 		<state readOnly="true"/>
 	</channel-type>
 

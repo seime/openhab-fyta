@@ -26,7 +26,10 @@ import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jetty.http.HttpStatus;
 import org.openhab.core.i18n.ConfigurationException;
+import org.openhab.core.library.types.RawType;
 import org.openhab.core.thing.ThingUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -40,8 +43,11 @@ import no.seime.openhab.binding.fyta.internal.dto.AbstractRequest;
  * @author Arne Seime - Initial contribution
  */
 public class RestApiClient {
+    private final Logger logger = LoggerFactory.getLogger(RestApiClient.class);
     public static final String HEADER_CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static String API_ENDPOINT = "https://web.fyta.de/api";
+
+    public static String IMAGE_ENDPOINT = null; // Only used for stubbing
 
     private HttpClient httpClient;
 
@@ -64,14 +70,7 @@ public class RestApiClient {
     private Request buildRequest(final AbstractRequest req) {
         Request request = httpClient.newRequest(API_ENDPOINT + req.getRequestUrl()).method(req.getMethod());
 
-        request.getHeaders().remove(HttpHeader.USER_AGENT);
-        request.getHeaders().remove(HttpHeader.ACCEPT);
-        request.header(HttpHeader.USER_AGENT, "openHAB");
-        request.header(HttpHeader.ACCEPT, HEADER_CONTENT_TYPE_APPLICATION_JSON);
-        request.header(HttpHeader.CONTENT_TYPE, HEADER_CONTENT_TYPE_APPLICATION_JSON);
-        if (accessToken != null) {
-            request.header(HttpHeader.AUTHORIZATION, "Bearer " + accessToken);
-        }
+        addRequestHeaders(request);
 
         if (!req.getMethod().contentEquals(HttpMethod.GET.asString())) { // POST, PATCH, PUT
             final String reqJson = gson.toJson(req);
@@ -82,6 +81,17 @@ public class RestApiClient {
         requestLogger.listenTo(request, new String[] {});
 
         return request;
+    }
+
+    private void addRequestHeaders(Request request) {
+        request.getHeaders().remove(HttpHeader.USER_AGENT);
+        request.getHeaders().remove(HttpHeader.ACCEPT);
+        request.header(HttpHeader.USER_AGENT, "openHAB");
+        request.header(HttpHeader.ACCEPT, HEADER_CONTENT_TYPE_APPLICATION_JSON);
+        request.header(HttpHeader.CONTENT_TYPE, HEADER_CONTENT_TYPE_APPLICATION_JSON);
+        if (accessToken != null) {
+            request.header(HttpHeader.AUTHORIZATION, "Bearer " + accessToken);
+        }
     }
 
     public <T> T sendRequest(final AbstractRequest req, final Type responseType) throws RestCommunicationException {
@@ -130,5 +140,23 @@ public class RestApiClient {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public RawType getImage(String userThumbnailPath) throws RestCommunicationException {
+        try {
+            if (IMAGE_ENDPOINT != null) {
+                userThumbnailPath = IMAGE_ENDPOINT + userThumbnailPath; // Only used for stubbing
+            }
+
+            Request request = httpClient.newRequest(userThumbnailPath).method(HttpMethod.GET);
+            addRequestHeaders(request);
+            ContentResponse image = request.send();
+            String contentType = image.getHeaders().get(HttpHeader.CONTENT_TYPE);
+            return new RawType(image.getContent(), contentType);
+
+        } catch (InterruptedException | TimeoutException | ExecutionException e) {
+            throw new RestCommunicationException(
+                    String.format("Exception caught trying fetch image: %s", e.getMessage()), e);
+        }
     }
 }

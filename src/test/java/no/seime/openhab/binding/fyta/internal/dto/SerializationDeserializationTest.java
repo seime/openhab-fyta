@@ -97,6 +97,11 @@ class SerializationDeserializationTest {
 
         assertNotNull(measurements.light);
         assertNotNull(measurements.temperature);
+        assertEquals(10d, measurements.temperature.values.minAcceptable);
+        assertEquals(17d, measurements.temperature.values.minGood);
+        assertEquals(36d, measurements.temperature.values.maxGood);
+        assertEquals(42d, measurements.temperature.values.maxAcceptable);
+        assertEquals(21d, measurements.temperature.values.current);
         assertNotNull(measurements.moisture);
         assertNotNull(measurements.salinity);
         assertEquals(100, measurements.battery);

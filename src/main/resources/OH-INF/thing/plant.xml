@@ -15,14 +15,33 @@
 		<category>Garden</category>
 
 		<channels>
+			<channel id="nickname" typeId="nickname"/>
+			<channel id="thumbnail" typeId="thumbnail"/>
+
 			<channel id="temperature-status" typeId="temperature-status"/>
-			<channel id="light-status" typeId="light-status"/>
-			<channel id="moisture-status" typeId="moisture-status"/>
-			<channel id="salinity-status" typeId="salinity-status"/>
 			<channel id="temperature" typeId="temperature"/>
+			<channel id="temperature-min-acceptable" typeId="temperature-min-acceptable"/>
+			<channel id="temperature-min-good" typeId="temperature-min-good"/>
+			<channel id="temperature-max-good" typeId="temperature-max-good"/>
+			<channel id="temperature-max-acceptable" typeId="temperature-max-acceptable"/>
+
+			<channel id="light-status" typeId="light-status"/>
 			<channel id="light" typeId="light"/>
+
+			<channel id="moisture-status" typeId="moisture-status"/>
 			<channel id="moisture" typeId="moisture"/>
+			<channel id="moisture-min-acceptable" typeId="moisture-min-acceptable"/>
+			<channel id="moisture-min-good" typeId="moisture-min-good"/>
+			<channel id="moisture-max-good" typeId="moisture-max-good"/>
+			<channel id="moisture-max-acceptable" typeId="moisture-max-acceptable"/>
+
+			<channel id="salinity-status" typeId="salinity-status"/>
 			<channel id="salinity" typeId="salinity"/>
+			<channel id="salinity-min-acceptable" typeId="salinity-min-acceptable"/>
+			<channel id="salinity-min-good" typeId="salinity-min-good"/>
+			<channel id="salinity-max-good" typeId="salinity-max-good"/>
+			<channel id="salinity-max-acceptable" typeId="salinity-max-acceptable"/>
+
 			<channel id="last-updated" typeId="last-updated"/>
 			<channel id="battery" typeId="battery"/>
 		</channels>

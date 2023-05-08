@@ -12,7 +12,7 @@
     "owner": {},
     "peers": [],
     "soil_type_id": null,
-    "thumb_path": "https://api.prod.fyta-app.de/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+    "thumb_path": "/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
     "origin_path": "https://api.prod.fyta-app.de/user-plant/100000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
     "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/1000000/thumb_1651708881307.jpeg",
     "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/1000000/origin_1651708879897.jpeg",

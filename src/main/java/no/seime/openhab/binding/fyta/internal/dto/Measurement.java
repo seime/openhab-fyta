@@ -28,13 +28,13 @@ public class Measurement {
 
     public static class Values {
         @SerializedName("min_good")
-        public String minGood;
+        public double minGood;
         @SerializedName("max_good")
-        public String maxGood;
+        public double maxGood;
         @SerializedName("min_acceptable")
-        public String minAcceptable;
+        public double minAcceptable;
         @SerializedName("max_acceptable")
-        public String maxAcceptable;
+        public double maxAcceptable;
 
         public double current;
 
