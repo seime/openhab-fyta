@@ -10,7 +10,8 @@
 		</supported-bridge-type-refs>
 
 		<label>Fyta Beam Plant Sensor</label>
-		<description>Fyta Beam Plant Sensor reports temperature, light, soil moisture and salinity. The sensor must be connected to Fyta via a Fyta hub.</description>
+		<description>Fyta Beam Plant Sensor reports temperature, light, soil moisture and salinity. The sensor must be
+			connected to Fyta via a Fyta hub.</description>
 		<category>Garden</category>
 
 		<channels>
