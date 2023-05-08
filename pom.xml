@@ -26,6 +26,11 @@
   </properties>
 
   <distributionManagement>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/seime/openhab-fyta</url>
+    </snapshotRepository>
     <repository>
       <id>github</id>
       <name>GitHub Packages</name>
