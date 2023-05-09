@@ -167,7 +167,7 @@ public class FytaPlantHandler extends BaseThingHandler {
 
                 // Schedule next fetching
                 Instant nextPollingTime = this.plant.sensor.receivedDataAt.toInstant()
-                        .plusSeconds(BEAM_REPORTING_INTERVAL_SECONDS + 60l);
+                        .plusSeconds(BEAM_REPORTING_INTERVAL_SECONDS + 60L);
                 long delayUntilNextPolling = nextPollingTime.getEpochSecond() - Instant.now().getEpochSecond();
                 if (delayUntilNextPolling < 600) {
                     delayUntilNextPolling = 600; // If data is delayed, do not hammer on server

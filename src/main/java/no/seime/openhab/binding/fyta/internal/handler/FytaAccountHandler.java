@@ -52,12 +52,11 @@ public class FytaAccountHandler extends BaseBridgeHandler {
     private static final int MAX_COMMUNICATION_ERRORS = 20;
     private static final long REFRESH_INTERVAL_SECONDS = 3600;
     private final Logger logger = LoggerFactory.getLogger(FytaAccountHandler.class);
-    private Optional<ScheduledFuture<?>> statusFuture = Optional.empty();
-    private GetPlantsResponse model;
+    private final RestApiClient apiBridge;
     @NonNullByDefault({})
     AccountConfiguration config;
-    private RestApiClient apiBridge;
-
+    private Optional<ScheduledFuture<?>> statusFuture = Optional.empty();
+    private GetPlantsResponse model;
     @Nullable
     private String accessToken;
     @Nullable

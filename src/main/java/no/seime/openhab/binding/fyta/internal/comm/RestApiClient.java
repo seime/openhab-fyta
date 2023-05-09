@@ -43,18 +43,14 @@ import no.seime.openhab.binding.fyta.internal.dto.AbstractRequest;
  * @author Arne Seime - Initial contribution
  */
 public class RestApiClient {
-    private final Logger logger = LoggerFactory.getLogger(RestApiClient.class);
     public static final String HEADER_CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static String API_ENDPOINT = "https://web.fyta.de/api";
-
     public static String IMAGE_ENDPOINT = null; // Only used for stubbing
-
-    private HttpClient httpClient;
-
+    private final Logger logger = LoggerFactory.getLogger(RestApiClient.class);
+    private final HttpClient httpClient;
+    private final Gson gson;
     @Nullable
     private String accessToken = null;
-
-    private Gson gson;
     @Nullable
     private RequestLogger requestLogger = null;
 
