@@ -20,11 +20,11 @@ package no.seime.openhab.binding.fyta.internal.dto;
  */
 public class GetPlantDetailsRequest implements AbstractRequest {
 
-    private final long plantId;
-
     public GetPlantDetailsRequest(long plantId) {
         this.plantId = plantId;
     }
+
+    private long plantId;
 
     @Override
     public String getRequestUrl() {

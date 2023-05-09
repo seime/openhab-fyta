@@ -38,8 +38,8 @@ import no.seime.openhab.binding.fyta.internal.handler.FytaAccountHandler;
 public class FytaDiscoveryService extends AbstractDiscoveryService {
     public static final Set<ThingTypeUID> DISCOVERABLE_THING_TYPES_UIDS = Collections
             .singleton(BindingConstants.THING_TYPE_PLANT);
-    public static final String MAC_ADDRESS_PROPERTY = "macAddress";
     private static final long DISCOVERY_INTERVAL_MINUTES = 60 * 4; // EVERY 4 HOUR
+    public static final String MAC_ADDRESS_PROPERTY = "macAddress";
     private final Logger logger = LoggerFactory.getLogger(FytaDiscoveryService.class);
     private final FytaAccountHandler accountHandler;
     private Optional<ScheduledFuture<?>> discoveryJob = Optional.empty();

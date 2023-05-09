@@ -24,6 +24,11 @@ import no.seime.openhab.binding.fyta.internal.dto.AbstractRequest;
 @NonNullByDefault
 public class RestCommunicationException extends Exception {
     private static final long serialVersionUID = 1L;
+
+    public int getHttpStatus() {
+        return httpStatus;
+    }
+
     private int httpStatus;
 
     public RestCommunicationException(final String message, final Throwable cause) {
@@ -38,9 +43,5 @@ public class RestCommunicationException extends Exception {
         super("Server responded with error to request " + req.getClass().getSimpleName() + "/" + req.getRequestUrl()
                 + ": " + overallStatus);
         this.httpStatus = httpStatus;
-    }
-
-    public int getHttpStatus() {
-        return httpStatus;
     }
 }

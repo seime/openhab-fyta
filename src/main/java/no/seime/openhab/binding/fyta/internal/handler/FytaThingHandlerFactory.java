@@ -59,10 +59,10 @@ public class FytaThingHandlerFactory extends BaseThingHandlerFactory {
     @NonNullByDefault({})
     private final HttpClient httpClient;
     @NonNullByDefault({})
-    private final StorageService storageService;
-    private final Map<ThingUID, ServiceRegistration<?>> discoveryServiceRegs = new HashMap<>();
+    private StorageService storageService;
+    private Map<ThingUID, ServiceRegistration<?>> discoveryServiceRegs = new HashMap<>();
 
-    private final Gson gson = GsonFactory.create();
+    private Gson gson = GsonFactory.create();
 
     @Activate
     public FytaThingHandlerFactory(@Reference HttpClientFactory httpClientFactory,
