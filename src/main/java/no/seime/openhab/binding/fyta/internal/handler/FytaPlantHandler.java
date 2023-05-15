@@ -234,6 +234,7 @@ public class FytaPlantHandler extends BaseThingHandler {
             case BindingConstants.CHANNEL_TEMPERATURE:
                 updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.current,
                         plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
+                break;
             case BindingConstants.CHANNEL_TEMPERATURE_MIN_ACCEPTABLE:
                 updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.minAcceptable,
                         plant.temperatureUnit == 1 ? SIUnits.CELSIUS : ImperialUnits.FAHRENHEIT));
