@@ -30,10 +30,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    - name: Downgrade versions
-      run:
-      - mvn versions:set -DnewVersion=3.4.4-SNAPSHOT
-      - mvn versions:update-parent -DskipResolution=true -DparentVersion=3.4.4
+    - name: Downgrade version
+      run: mvn versions:set -DnewVersion=3.4.4-SNAPSHOT
+    - name: Downgrade parent version
+      run: mvn versions:update-parent -DskipResolution=true -DparentVersion=3.4.4
     - name: Build
       run: mvn -P 'oh3' -P 'standalone' --batch-mode -DskipChecks -Doh.java.version=11 clean verify
 
