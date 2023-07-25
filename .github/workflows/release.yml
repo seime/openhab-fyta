@@ -1,4 +1,4 @@
-name: Build and create development release
+name: Build and create release
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
         java: [ '11' ]
         maven: [ '3.8.4' ]
         os: [ 'ubuntu-20.04' ]
-    name: Build (Java ${{ matrix.java }}, ${{ matrix.os }})
+    name: Build OH3 (Java ${{ matrix.java }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -26,9 +26,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.java }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-maven-
+          ${{ runner.java }}-maven-
 
     - name: Downgrade version
       run: mvn versions:set -DnewVersion=3.4.4-SNAPSHOT
@@ -53,7 +53,7 @@ jobs:
         java: [ '17' ]
         maven: [ '3.8.4' ]
         os: [ 'ubuntu-20.04' ]
-    name: Build (Java ${{ matrix.java }}, ${{ matrix.os }})
+    name: Build OH4 (Java ${{ matrix.java }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -66,9 +66,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.java }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-maven-
+          ${{ runner.java }}-maven-
 
     - name: Build
       run: mvn -P 'standalone' --batch-mode -DskipChecks -Doh.java.version=17 clean verify
