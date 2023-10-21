@@ -22,5 +22,7 @@ public class Measurements {
     public Measurement light;
     public Measurement moisture;
     public Measurement salinity;
+
+    public Measurement nutrients;
     public int battery;
 }

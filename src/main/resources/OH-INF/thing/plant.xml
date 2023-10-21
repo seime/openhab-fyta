@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thing:thing-descriptions bindingId="fyta"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+<thing:thing-descriptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0" bindingId="fyta"
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
 	<thing-type id="plant">
@@ -34,6 +33,8 @@
 			<channel id="moisture-min-good" typeId="moisture-min-good"/>
 			<channel id="moisture-max-good" typeId="moisture-max-good"/>
 			<channel id="moisture-max-acceptable" typeId="moisture-max-acceptable"/>
+
+			<channel id="nutrients-status" typeId="nutrients-status"/>
 
 			<channel id="salinity-status" typeId="salinity-status"/>
 			<channel id="salinity" typeId="salinity"/>

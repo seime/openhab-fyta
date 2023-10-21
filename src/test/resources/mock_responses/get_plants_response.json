@@ -1,8 +1,15 @@
 {
   "gardens": [
     {
-      "id": 100000000,
+      "id": 1189,
       "garden_name": "Stue",
+      "origin_path": null,
+      "thumb_path": null,
+      "mac_address": null
+    },
+    {
+      "id": 1300,
+      "garden_name": "Trapp",
       "origin_path": null,
       "thumb_path": null,
       "mac_address": null
@@ -10,124 +17,122 @@
   ],
   "plants": [
     {
-      "id": 100000,
-      "nickname": "Ficus benjamina",
+      "id": 10000,
+      "nickname": "Fikentre sittegruppe",
       "scientific_name": "Ficus benjamina",
       "common_name": "Weeping Fig",
-      "status": 2,
+      "status": 3,
       "plant_id": 201,
       "family_id": null,
       "is_shared": false,
       "owner": {},
-      "peers": [],
+      "peers": [
+        {
+          "id": 1,
+          "email": "email@address.com",
+          "username": "Firstname Lastname"
+        }
+      ],
       "wifi_status": 1,
-      "thumb_path": "https://api.prod.fyta-app.de/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
-      "origin_path": "https://api.prod.fyta-app.de/user-plant/100000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
-      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/1000000/thumb_1651708881307.jpeg",
-      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/1000000/origin_1651708879897.jpeg",
-      "received_data_at": "2023-05-06 17:05:56",
-      "temperature_optimal_hours": 24,
+      "thumb_path": "https://api.prod.fyta-app.de/user-plant/10000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+      "origin_path": "https://api.prod.fyta-app.de/user-plant/10000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
+      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/5047/thumb_1651708881307.jpeg",
+      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/5047/origin_1651708879897.jpeg",
+      "received_data_at": "2023-10-21 14:30:27",
+      "temperature_optimal_hours": 0,
       "light_optimal_hours": 0,
+      "eligibility": true,
       "temperature_status": 3,
-      "light_status": 2,
-      "moisture_status": 3,
+      "light_status": 1,
+      "moisture_status": 4,
       "salinity_status": 1,
+      "nutrients_status": 1,
+      "fertilisation": {
+        "last_fertilised_at": "2023-05-25",
+        "fertilise_at": "2023-06-24",
+        "was_repotted": false
+      },
       "has_remote_hub": false,
       "has_remote_sensor": false,
       "garden": {
-        "id": 100000000
+        "id": 1189
       },
       "sensor": {
-        "id": "MAC_ADDRESS1",
+        "id": "PLANT1_MAC_ADDRESS",
         "has_sensor": true,
         "status": 1,
         "uuid_android": null,
         "uuid_ios": null,
-        "version": "1.1.0",
+        "version": "1.4.0",
         "is_battery_low": false,
-        "received_data_at": "2023-05-06 17:05:56"
+        "received_data_at": "2023-10-21 14:30:27"
       },
       "hub": {
-        "id": 1000000001,
+        "id": 1388,
         "hub_id": "HUB_MAC_ADDRESS",
         "status": 1,
-        "received_data_at": "2023-05-06 17:05:56",
-        "reached_hub_at": "2023-05-06 17:51:19"
+        "received_data_at": "2023-10-21 14:30:27",
+        "reached_hub_at": "2023-10-21 14:57:40"
       }
     },
     {
-      "id": 2000000,
-      "nickname": "Monstera deliciosa trapp",
-      "scientific_name": "Monstera deliciosa",
-      "common_name": "Swiss Cheese Plant",
-      "status": 2,
-      "plant_id": 261,
+      "id": 20000,
+      "nickname": "Palme spisebord",
+      "scientific_name": "Dypsis lutescens",
+      "common_name": "Yellow Butterfly Palm",
+      "status": 3,
+      "plant_id": 529,
       "family_id": null,
       "is_shared": false,
       "owner": {},
-      "peers": [],
+      "peers": [
+        {
+          "id": 1,
+          "email": "email@address.com",
+          "username": "Firstname Lastname"
+        }
+      ],
       "wifi_status": 1,
-      "thumb_path": "https://api.prod.fyta-app.de/user-plant/2000000/thumb_path?timestamp=2023-04-09%2016%3A25%3A27",
-      "origin_path": "https://api.prod.fyta-app.de/user-plant/2000000/origin_path?timestamp=2023-04-09%2016%3A25%3A27",
-      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/20000000/thumb_1651708883021.jpeg",
-      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/20000000/origin_1651708881252.jpeg",
-      "received_data_at": "2023-05-06 17:06:54",
-      "temperature_optimal_hours": 24,
+      "thumb_path": "https://api.prod.fyta-app.de/user-plant/20000/thumb_path?timestamp=2023-04-09%2016%3A39%3A11",
+      "origin_path": "https://api.prod.fyta-app.de/user-plant/20000/origin_path?timestamp=2023-04-09%2016%3A39%3A11",
+      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/5340/thumb_1651708966434.jpeg",
+      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/5340/origin_1651708965286.jpeg",
+      "received_data_at": "2023-10-21 14:30:47",
+      "temperature_optimal_hours": 0,
       "light_optimal_hours": 0,
+      "eligibility": true,
       "temperature_status": 3,
       "light_status": 1,
-      "moisture_status": 3,
-      "salinity_status": 1,
+      "moisture_status": 1,
+      "salinity_status": 2,
+      "nutrients_status": 2,
+      "fertilisation": {
+        "last_fertilised_at": "2023-03-20",
+        "fertilise_at": "2023-07-10",
+        "was_repotted": true
+      },
       "has_remote_hub": false,
       "has_remote_sensor": false,
-      "garden": null,
+      "garden": {
+        "id": 1189
+      },
       "sensor": {
-        "id": "MAC_ADDRESS2",
+        "id": "F8:DB:1A:37:00:11",
         "has_sensor": true,
         "status": 1,
         "uuid_android": null,
         "uuid_ios": null,
-        "version": "1.1.0",
+        "version": "1.4.0",
         "is_battery_low": false,
-        "received_data_at": "2023-05-06 17:06:54"
+        "received_data_at": "2023-10-21 14:30:47"
       },
       "hub": {
-        "id": 1000000001,
+        "id": 1388,
         "hub_id": "HUB_MAC_ADDRESS",
         "status": 1,
-        "received_data_at": "2023-05-06 17:06:54",
-        "reached_hub_at": "2023-05-06 17:51:19"
+        "received_data_at": "2023-10-21 14:30:47",
+        "reached_hub_at": "2023-10-21 14:57:40"
       }
-    }
-  ,
-    {
-      "id": 17590,
-      "nickname": "Calathea ornata (sensorless) ",
-      "scientific_name": "Calathea ornata ",
-      "common_name": "Pin-Stripe Calathea",
-      "status": 3,
-      "plant_id": 70,
-      "family_id": null,
-      "is_shared": false,
-      "owner": {},
-      "peers": [],
-      "wifi_status": 2,
-      "thumb_path": null,
-      "origin_path": "https://api.prod.fyta-app.de/user-plant/17590/origin_path?timestamp=2023-05-08%2007%3A56%3A04",
-      "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/4848/thumb_1651708834285.jpeg",
-      "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/4848/origin_1651708831353.jpeg",
-      "received_data_at": null,
-      "temperature_optimal_hours": null,
-      "light_optimal_hours": null,
-      "temperature_status": 0,
-      "light_status": 0,
-      "moisture_status": 0,
-      "salinity_status": 0,
-      "has_remote_hub": false,
-      "has_remote_sensor": false,
-      "garden": null,
-      "sensor": null,
-      "hub": null
     }
   ],
   "hubs_with_lost_connection": []

@@ -281,6 +281,9 @@ public class FytaPlantHandler extends BaseThingHandler {
                 updateState(channelUID,
                         new QuantityType<>(plant.measurements.moisture.values.maxAcceptable, Units.PERCENT));
                 break;
+            case BindingConstants.CHANNEL_NUTRIENTS_STATUS:
+                updateState(channelUID, new StringType(plant.measurements.nutrients.status.toString()));
+                break;
 
             // Salinity
             case BindingConstants.CHANNEL_SALINITY_STATUS:

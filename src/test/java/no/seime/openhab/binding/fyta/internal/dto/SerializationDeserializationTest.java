@@ -53,29 +53,29 @@ class SerializationDeserializationTest {
         final GetPlantsResponse message = wireHelper
                 .deSerializeFromClasspathResource("/mock_responses/get_plants_response.json", type);
 
-        assertEquals(3, message.plants.length);
+        assertEquals(2, message.plants.length);
 
         Plant plant = message.plants[0];
 
-        assertEquals(100000, plant.id);
-        assertEquals("Ficus benjamina", plant.nickname);
+        assertEquals(10000, plant.id);
+        assertEquals("Fikentre sittegruppe", plant.nickname);
         assertEquals("Ficus benjamina", plant.scientificName);
         assertEquals("Weeping Fig", plant.commonName);
-        assertEquals(2, plant.overallStatus);
-        assertEquals("https://api.prod.fyta-app.de/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+        assertEquals(3, plant.overallStatus);
+        assertEquals("https://api.prod.fyta-app.de/user-plant/10000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
                 plant.userThumbnailPath);
-        assertEquals("https://api.prod.fyta-app.de/user-plant/100000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
+        assertEquals("https://api.prod.fyta-app.de/user-plant/10000/origin_path?timestamp=2023-04-09%2016%3A17%3A12",
                 plant.userOriginalPath);
         Assertions.assertEquals(Status.PERFECT, plant.temperatureStatus);
-        Assertions.assertEquals(Status.LOW, plant.lightStatus);
-        Assertions.assertEquals(Status.PERFECT, plant.moistureStatus);
+        Assertions.assertEquals(Status.TOO_LOW, plant.lightStatus);
+        Assertions.assertEquals(Status.HIGH, plant.moistureStatus);
         Assertions.assertEquals(Status.TOO_LOW, plant.salinityStatus);
-        assertEquals("2023-05-06T17:05:56Z", plant.receivedDataAt.toString());
+        assertEquals("2023-10-21T14:30:27Z", plant.receivedDataAt.toString());
 
         assertNotNull(plant.sensor);
-        assertEquals("MAC_ADDRESS1", plant.sensor.macAddress);
-        assertEquals("1.1.0", plant.sensor.firmwareVersion);
-        assertEquals("2023-05-06T17:05:56Z", plant.sensor.receivedDataAt.toString());
+        assertEquals("PLANT1_MAC_ADDRESS", plant.sensor.macAddress);
+        assertEquals("1.4.0", plant.sensor.firmwareVersion);
+        assertEquals("2023-10-21T14:30:27Z", plant.sensor.receivedDataAt.toString());
 
         // assertEquals(1,plant.temperatureUnit);
     }
@@ -101,13 +101,15 @@ class SerializationDeserializationTest {
         assertEquals(17d, measurements.temperature.values.minGood);
         assertEquals(36d, measurements.temperature.values.maxGood);
         assertEquals(42d, measurements.temperature.values.maxAcceptable);
-        assertEquals(21d, measurements.temperature.values.current);
+        assertEquals(18d, measurements.temperature.values.current);
         assertNotNull(measurements.moisture);
         assertNotNull(measurements.salinity);
         assertEquals(100, measurements.battery);
 
+        assertEquals(Status.TOO_LOW, measurements.nutrients.status);
+
         Measurement light = measurements.light;
-        assertEquals(1d, light.values.current);
+        assertEquals(0d, light.values.current);
         assertEquals("μmol/h", light.unit);
     }
 }

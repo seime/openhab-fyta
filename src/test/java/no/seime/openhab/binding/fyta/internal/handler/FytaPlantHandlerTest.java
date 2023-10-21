@@ -109,7 +109,7 @@ class FytaPlantHandlerTest {
         restApiClient.setAccessToken("ACCESSTOKEN");
 
         plantConfiguration = new PlantConfiguration();
-        plantConfiguration.macAddress = "MAC_ADDRESS1";
+        plantConfiguration.macAddress = "PLANT1_MAC_ADDRESS";
         when(configuration.as(PlantConfiguration.class)).thenReturn(plantConfiguration);
 
         thing = createThing();
@@ -138,8 +138,8 @@ class FytaPlantHandlerTest {
     void testInitialize() throws IOException, InterruptedException {
 
         // Setup get lock response
-        prepareGetNetworkResponse("/api/user-plant/100000", "/mock_responses/get_plant_details_response.json", 200);
-        prepareGetNetworkResponse("/user-plant/100000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
+        prepareGetNetworkResponse("/api/user-plant/10000", "/mock_responses/get_plant_details_response.json", 200);
+        prepareGetNetworkResponse("/user-plant/10000/thumb_path?timestamp=2023-04-09%2016%3A17%3A12",
                 "image".getBytes(StandardCharsets.UTF_8), "image/png", 200);
 
         plantHandler.initialize();
@@ -151,7 +151,7 @@ class FytaPlantHandlerTest {
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_STATUS),
                 new StringType(Status.PERFECT.toString()));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE),
-                new QuantityType<>(21, SIUnits.CELSIUS));
+                new QuantityType<>(18, SIUnits.CELSIUS));
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_TEMPERATURE_MIN_ACCEPTABLE),
                 new QuantityType<>(10, SIUnits.CELSIUS));
@@ -168,9 +168,9 @@ class FytaPlantHandlerTest {
         // Moisture
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_STATUS),
-                new StringType(Status.PERFECT.toString()));
+                new StringType(Status.HIGH.toString()));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE),
-                new QuantityType<>(52, Units.PERCENT));
+                new QuantityType<>(72, Units.PERCENT));
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_MOISTURE_MIN_ACCEPTABLE),
                 new QuantityType<>(25, Units.PERCENT));
@@ -187,38 +187,38 @@ class FytaPlantHandlerTest {
         // Salinity
         verify(thingHandlerCallback).stateUpdated(
                 new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_STATUS),
-                new StringType(Status.TOO_LOW.toString()));
+                new StringType(Status.TOO_HIGH.toString()));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY),
-                new DecimalType(0.32));
+                new DecimalType(2.40d));
         verify(thingHandlerCallback).stateUpdated(
-                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_ACCEPTABLE), new DecimalType(0.4));
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_ACCEPTABLE), new DecimalType(0));
         verify(thingHandlerCallback).stateUpdated(
-                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_GOOD), new DecimalType(0.6));
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MIN_GOOD), new DecimalType(0));
         verify(thingHandlerCallback).stateUpdated(
-                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_GOOD), new DecimalType(1));
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_GOOD), new DecimalType(0));
         verify(thingHandlerCallback).stateUpdated(
-                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_ACCEPTABLE), new DecimalType(1.2));
+                new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_SALINITY_MAX_ACCEPTABLE), new DecimalType(0));
 
         // Light
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LIGHT_STATUS),
-                new StringType(Status.LOW.toString()));
+                new StringType(Status.TOO_LOW.toString()));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LIGHT),
-                new DecimalType(1));
+                new DecimalType(0));
 
         // Other
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_NICKNAME),
-                new StringType("Ficus benjamina"));
+                new StringType("Fikentre sittegruppe"));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_THUMBNAIL),
                 new RawType("image".getBytes(StandardCharsets.UTF_8), "image/png"));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_BATTERY),
                 new QuantityType<>(100, Units.PERCENT));
         verify(thingHandlerCallback).stateUpdated(new ChannelUID(thing.getUID(), BindingConstants.CHANNEL_LAST_UPDATED),
-                new DateTimeType(ZonedDateTime.parse("2023-05-06T18:16:47Z")));
+                new DateTimeType(ZonedDateTime.parse("2023-10-21T14:30:27Z")));
     }
 
     private Thing createThing() {
 
-        ThingImpl plantThing = new ThingImpl(BindingConstants.THING_TYPE_PLANT, "100000");
+        ThingImpl plantThing = new ThingImpl(BindingConstants.THING_TYPE_PLANT, "10000");
         plantThing.addChannel(
                 ChannelBuilder.create(new ChannelUID(plantThing.getUID(), BindingConstants.CHANNEL_NICKNAME)).build());
         plantThing.addChannel(

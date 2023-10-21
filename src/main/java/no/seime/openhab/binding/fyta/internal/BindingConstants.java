@@ -47,6 +47,7 @@ public class BindingConstants {
     public static final String CHANNEL_MOISTURE_MAX_GOOD = "moisture-max-good";
     public static final String CHANNEL_MOISTURE_MAX_ACCEPTABLE = "moisture-max-acceptable";
 
+    public static final String CHANNEL_NUTRIENTS_STATUS = "nutrients-status";
     public static final String CHANNEL_SALINITY_STATUS = "salinity-status";
     public static final String CHANNEL_SALINITY = "salinity";
     public static final String CHANNEL_SALINITY_MIN_ACCEPTABLE = "salinity-min-acceptable";
