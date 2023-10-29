@@ -184,6 +184,8 @@ public class FytaPlantHandler extends BaseThingHandler {
                         "Error retrieving data from server: " + ex.getMessage());
                 // Undef all channels if error
                 thing.getChannels().forEach(channel -> updateState(channel.getUID(), UnDefType.UNDEF));
+                statusFuture = Optional.of(scheduler.schedule(this::loadPlantDetails, 60, TimeUnit.SECONDS));
+
             }
         } else {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
