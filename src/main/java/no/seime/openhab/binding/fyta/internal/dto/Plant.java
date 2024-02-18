@@ -55,9 +55,6 @@ public class Plant {
 
     public Sensor sensor;
 
-    @SerializedName("has_remote_sensor")
-    public boolean hasSensor;
-
     public Measurements measurements;
 
     @SerializedName("temperature_unit")

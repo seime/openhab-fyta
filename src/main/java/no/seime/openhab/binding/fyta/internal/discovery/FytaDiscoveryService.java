@@ -65,7 +65,7 @@ public class FytaDiscoveryService extends AbstractDiscoveryService {
 
             for (Plant plant : accountHandler.getModel().plants) {
 
-                if (plant.hasSensor && plant.sensor != null && plant.sensor.macAddress != null) {
+                if (plant.sensor != null && plant.sensor.hasSensor && plant.sensor.macAddress != null) {
                     ThingTypeUID thingType = BindingConstants.THING_TYPE_PLANT;
 
                     final ThingUID deviceUID = new ThingUID(thingType, accountUID,

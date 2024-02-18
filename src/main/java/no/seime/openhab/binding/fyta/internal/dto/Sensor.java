@@ -32,4 +32,7 @@ public class Sensor {
 
     @SerializedName("received_data_at")
     public ZonedDateTime receivedDataAt;
+
+    @SerializedName("has_sensor")
+    public boolean hasSensor;
 }
