@@ -21,21 +21,12 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jdt.annotation.Nullable;
-import org.openhab.core.library.types.DateTimeType;
-import org.openhab.core.library.types.DecimalType;
-import org.openhab.core.library.types.QuantityType;
-import org.openhab.core.library.types.RawType;
-import org.openhab.core.library.types.StringType;
+import org.openhab.core.library.types.*;
 import org.openhab.core.library.unit.ImperialUnits;
 import org.openhab.core.library.unit.SIUnits;
 import org.openhab.core.library.unit.Units;
 import org.openhab.core.storage.Storage;
-import org.openhab.core.thing.Bridge;
-import org.openhab.core.thing.ChannelUID;
-import org.openhab.core.thing.Thing;
-import org.openhab.core.thing.ThingStatus;
-import org.openhab.core.thing.ThingStatusDetail;
-import org.openhab.core.thing.ThingStatusInfo;
+import org.openhab.core.thing.*;
 import org.openhab.core.thing.binding.BaseThingHandler;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.UnDefType;
@@ -156,7 +147,7 @@ public class FytaPlantHandler extends BaseThingHandler {
                         .sendRequest(getDeviceDetailsRequest, new TypeToken<GetPlantDetailsResponse>() {
                         }.getType());
 
-                this.plant = response.plant;
+                plant = response.plant;
 
                 Map<String, String> properties = optionalPlant.get().getThingProperties();
                 updateThing(editThing().withProperties(properties).build());
@@ -166,7 +157,7 @@ public class FytaPlantHandler extends BaseThingHandler {
                 getThing().getChannels().forEach(channel -> updateChannel(plant, channel.getUID()));
 
                 // Schedule next fetching
-                Instant nextPollingTime = this.plant.sensor.receivedDataAt.toInstant()
+                Instant nextPollingTime = plant.sensor.receivedDataAt.toInstant()
                         .plusSeconds(BEAM_REPORTING_INTERVAL_SECONDS + 60l);
                 long delayUntilNextPolling = nextPollingTime.getEpochSecond() - Instant.now().getEpochSecond();
                 if (delayUntilNextPolling < 600) {
@@ -231,7 +222,8 @@ public class FytaPlantHandler extends BaseThingHandler {
 
             // Temperature
             case BindingConstants.CHANNEL_TEMPERATURE_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.temperature.status.toString()));
+                updateState(channelUID, plant.measurements.temperature.status == null ? UnDefType.UNDEF
+                        : new StringType(plant.measurements.temperature.status.toString()));
                 break;
             case BindingConstants.CHANNEL_TEMPERATURE:
                 updateState(channelUID, new QuantityType<>(plant.measurements.temperature.values.current,
@@ -256,7 +248,8 @@ public class FytaPlantHandler extends BaseThingHandler {
 
             // Light
             case BindingConstants.CHANNEL_LIGHT_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.light.status.toString()));
+                updateState(channelUID, plant.measurements.light.status == null ? UnDefType.UNDEF
+                        : new StringType(plant.measurements.light.status.toString()));
                 break;
             case BindingConstants.CHANNEL_LIGHT:
                 updateState(channelUID, new DecimalType(plant.measurements.light.values.current));
@@ -264,7 +257,8 @@ public class FytaPlantHandler extends BaseThingHandler {
 
             // Moisture
             case BindingConstants.CHANNEL_MOISTURE_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.moisture.status.toString()));
+                updateState(channelUID, plant.measurements.moisture.status == null ? UnDefType.UNDEF
+                        : new StringType(plant.measurements.moisture.status.toString()));
                 break;
             case BindingConstants.CHANNEL_MOISTURE:
                 updateState(channelUID, new QuantityType<>(plant.measurements.moisture.values.current, Units.PERCENT));
@@ -284,15 +278,18 @@ public class FytaPlantHandler extends BaseThingHandler {
                         new QuantityType<>(plant.measurements.moisture.values.maxAcceptable, Units.PERCENT));
                 break;
             case BindingConstants.CHANNEL_NUTRIENTS_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.nutrients.status.toString()));
+                updateState(channelUID, plant.measurements.nutrients.status == null ? UnDefType.UNDEF
+                        : new StringType(plant.measurements.nutrients.status.toString()));
                 break;
 
             // Salinity
             case BindingConstants.CHANNEL_SALINITY_STATUS:
-                updateState(channelUID, new StringType(plant.measurements.salinity.status.toString()));
+                updateState(channelUID, plant.measurements.salinity.status == null ? UnDefType.UNDEF
+                        : new StringType(plant.measurements.salinity.status.toString()));
                 break;
             case BindingConstants.CHANNEL_SALINITY:
-                updateState(channelUID, new DecimalType(plant.measurements.salinity.values.currentFormatted));
+                updateState(channelUID, plant.measurements.salinity.values.currentFormatted == null ? UnDefType.UNDEF
+                        : new DecimalType(plant.measurements.salinity.values.currentFormatted));
                 break;
             case BindingConstants.CHANNEL_SALINITY_MIN_ACCEPTABLE:
                 updateState(channelUID, new DecimalType(plant.measurements.salinity.values.minAcceptable));

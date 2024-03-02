@@ -1,0 +1,184 @@
+{
+  "plant": {
+    "id": 12312312313,
+    "nickname": "Fredslilje stulleben",
+    "status": 2,
+    "scientific_name": "Spathiphyllum floribundum",
+    "plant_id": 401,
+    "is_shared": false,
+    "pot_size": 12,
+    "drainage": 0,
+    "light_factor": 1,
+    "owner": {},
+    "peers": [],
+    "soil_type_id": 3,
+    "thumb_path": "https://api.prod.fyta-app.de/user-plant/12312312313/thumb_path?timestamp\u003d2024-03-02%2016%3A47%3A12",
+    "origin_path": "https://api.prod.fyta-app.de/user-plant/12312312313/origin_path?timestamp\u003d2024-03-02%2016%3A47%3A12",
+    "plant_thumb_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/thumb/5198/thumb_1651708928361.jpeg",
+    "plant_origin_path": "https://s3.eu-central-1.amazonaws.com/de.fyta.prod.media/image/origin/5198/origin_1651708926497.jpeg",
+    "received_data_at": "2024-03-02 18:47:28",
+    "gathering_data": true,
+    "is_illegal": false,
+    "not_supported": false,
+    "is_productive_plant": false,
+    "fertilisation": {
+      "was_repotted": false
+    },
+    "notifications": {
+      "light": true,
+      "temperature": true,
+      "water": true,
+      "nutrition": true
+    },
+    "sensor_update_available": false,
+    "garden": {
+      "id": 1189,
+      "name": "Stue"
+    },
+    "sensor": {
+      "id": "AA:BB:D1:D9:22:CC",
+      "has_sensor": true,
+      "status": 1,
+      "version": "1.4.0",
+      "light_factor": 1,
+      "probe_length_id": 2,
+      "moisture_factor": 1.0546766519546509,
+      "is_battery_low": false,
+      "received_data_at": "2024-03-02 18:47:28",
+      "created_at": "2024-03-02 16:47:33",
+      "has_sensor_update": false
+    },
+    "hub": {
+      "id": 1388,
+      "hub_id": "A0:76:4E:63:47:FE",
+      "hub_name": "Stue",
+      "status": 1,
+      "received_data_at": "2024-03-02 18:47:28",
+      "reached_hub_at": "2024-03-02 18:53:55"
+    },
+    "missing": [],
+    "measurements": {
+      "ph": {
+        "type": "ph",
+        "values": {
+          "min": "4",
+          "max": "7"
+        },
+        "unit": "pH",
+        "absolute_values": {
+          "min": "0",
+          "max": "7.5",
+          "minText": "0",
+          "maxText": "7.5"
+        }
+      },
+      "nutrients": {
+        "type": "nutrients"
+      },
+      "temperature": {
+        "type": "temperature",
+        "status": 0,
+        "values": {
+          "min_good": "17",
+          "max_good": "36",
+          "min_acceptable": "10",
+          "max_acceptable": "42",
+          "optimal_hours": 0
+        },
+        "unit": "°C/h",
+        "absolute_values": {
+          "min": "0",
+          "max": "50",
+          "minText": "0",
+          "maxText": "50"
+        }
+      },
+      "light": {
+        "type": "light",
+        "values": {
+          "min_good": "11.5",
+          "max_good": "460",
+          "min_acceptable": "2.75",
+          "max_acceptable": "690",
+          "current": "0",
+          "currentFormatted": "0",
+          "optimal_hours": 0
+        },
+        "dli_values": {
+          "min_good": "0.25",
+          "max_good": "15",
+          "min_acceptable": "0.06",
+          "max_acceptable": "20"
+        },
+        "unit": "μmol/h",
+        "dli_unit": "mol/day",
+        "absolute_values": {
+          "min": "0",
+          "max": "720",
+          "minText": "0",
+          "maxText": "720"
+        }
+      },
+      "moisture": {
+        "type": "moisture",
+        "status": 4,
+        "values": {
+          "min_good": "35",
+          "max_good": "70",
+          "min_acceptable": "25",
+          "max_acceptable": "80",
+          "current": "72",
+          "currentFormatted": "72"
+        },
+        "unit": "%/h",
+        "absolute_values": {
+          "min": "0",
+          "max": "85",
+          "minText": "0",
+          "maxText": "85"
+        }
+      },
+      "salinity": {
+        "type": "salinity",
+        "values": {
+          "min_good": "0",
+          "max_good": "0",
+          "min_acceptable": "0",
+          "max_acceptable": "0"
+        },
+        "unit": "mS/cm/h",
+        "absolute_values": {
+          "min": "0",
+          "max": "0.2",
+          "minText": "0",
+          "maxText": "0.2"
+        }
+      },
+      "battery": "99"
+    },
+    "temperature_unit": 1,
+    "know_hows": [],
+    "device_menu": {
+      "actions": [
+        {
+          "action": "analyzing",
+          "title": "Analyzing",
+          "description": "The Beam is currently gathering data. The initial data analysis will be ready within a few hours. To do a quick check, please use the Live Mode feature.",
+          "priority": 3
+        },
+        {
+          "action": "data_collected",
+          "title": "2024-03-02 18:47:28",
+          "description": "",
+          "priority": 6
+        }
+      ],
+      "buttons": [
+        "sensor",
+        "hub"
+      ],
+      "live_mode_enabled": true,
+      "diagnose_enabled": true
+    }
+  }
+}

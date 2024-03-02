@@ -22,6 +22,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum Status {
 
+    @SerializedName("0")
+    UNKNOWN,
     @SerializedName("1")
     TOO_LOW,
     @SerializedName("2")
@@ -31,6 +33,6 @@ public enum Status {
     @SerializedName("4")
     HIGH,
     @SerializedName("5")
-    TOO_HIGH;
+    TOO_HIGH
 
 }
