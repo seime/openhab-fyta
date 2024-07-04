@@ -6,6 +6,8 @@ This binding links [Fyta Beam plant sensors](https://fyta.de/en) via the cloud.
 <br/>
 <img src="theme.png"  width="20%" height="20%">
 
+[<img src="https://github.com/seime/support-me/blob/main/beer_me.png" width=150>](https://buymeacoffee.com/arnes)
+
 ## Supported Things
 
 * `account` = Fyta account
