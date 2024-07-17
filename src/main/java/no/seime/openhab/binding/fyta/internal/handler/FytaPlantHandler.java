@@ -73,6 +73,7 @@ public class FytaPlantHandler extends BaseThingHandler {
     @Override
     public void initialize() {
         stopScheduledUpdate();
+
         PlantConfiguration config = getConfigAs(PlantConfiguration.class);
         updateStatus(ThingStatus.UNKNOWN);
 
@@ -130,6 +131,7 @@ public class FytaPlantHandler extends BaseThingHandler {
     public void dispose() {
         super.dispose();
         stopScheduledUpdate();
+        thing.getChannels().forEach(channel -> updateState(channel.getUID(), UnDefType.UNDEF));
     }
 
     @Override
