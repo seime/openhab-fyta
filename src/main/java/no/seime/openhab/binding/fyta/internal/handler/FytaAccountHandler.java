@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.jetty.http.HttpStatus;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.ThingStatus;
@@ -119,7 +118,7 @@ public class FytaAccountHandler extends BaseBridgeHandler {
 
         } catch (RestCommunicationException e) {
             logger.warn("Error communicating with Fyta server", e);
-            if (e.getHttpStatus() == HttpStatus.NOT_FOUND_404) {
+            if (e.getHttpStatus() == 404) {
                 accessToken = null;
                 accessTokenExpiry = null;
 

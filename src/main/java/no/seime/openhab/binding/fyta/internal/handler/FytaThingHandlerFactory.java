@@ -12,6 +12,8 @@
  */
 package no.seime.openhab.binding.fyta.internal.handler;
 
+import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -22,9 +24,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.jetty.client.HttpClient;
 import org.openhab.core.config.discovery.DiscoveryService;
-import org.openhab.core.io.net.http.HttpClientFactory;
 import org.openhab.core.storage.StorageService;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Thing;
@@ -56,8 +56,8 @@ import no.seime.openhab.binding.fyta.internal.discovery.FytaDiscoveryService;
 public class FytaThingHandlerFactory extends BaseThingHandlerFactory {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.unmodifiableSet(Stream
             .of(BindingConstants.THING_TYPE_ACCOUNT, BindingConstants.THING_TYPE_PLANT).collect(Collectors.toSet()));
-    @NonNullByDefault({})
-    private final HttpClient httpClient;
+    private final HttpClient httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
+            .connectTimeout(Duration.ofSeconds(15)).followRedirects(HttpClient.Redirect.NORMAL).build();
     @NonNullByDefault({})
     private StorageService storageService;
     private Map<ThingUID, ServiceRegistration<?>> discoveryServiceRegs = new HashMap<>();
@@ -65,9 +65,7 @@ public class FytaThingHandlerFactory extends BaseThingHandlerFactory {
     private Gson gson = GsonFactory.create();
 
     @Activate
-    public FytaThingHandlerFactory(@Reference HttpClientFactory httpClientFactory,
-            @Reference StorageService storageService) {
-        this.httpClient = httpClientFactory.getCommonHttpClient();
+    public FytaThingHandlerFactory(@Reference StorageService storageService) {
         this.storageService = storageService;
     }
 

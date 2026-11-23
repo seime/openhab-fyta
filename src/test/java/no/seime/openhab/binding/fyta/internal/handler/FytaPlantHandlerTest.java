@@ -21,11 +21,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 
-import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.http.HttpHeader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,8 +100,7 @@ class FytaPlantHandlerTest {
         RestApiClient.API_ENDPOINT = "http://localhost:" + port + "/api";
         RestApiClient.IMAGE_ENDPOINT = "http://localhost:" + port;
 
-        httpClient = new HttpClient();
-        httpClient.start();
+        httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).build();
 
         restApiClient = new RestApiClient(httpClient, gson);
         restApiClient.init(new ThingUID("fyta:bridge:1"));
@@ -130,7 +128,7 @@ class FytaPlantHandlerTest {
 
     @AfterEach
     public void shutdown() throws Exception {
-        httpClient.stop();
+        wireMockServer.stop();
         plantHandler.dispose();
     }
 
@@ -287,7 +285,7 @@ class FytaPlantHandlerTest {
     private void prepareGetNetworkResponse(String urlPath, byte[] responseContent, String contentType, int responseCode)
             throws IOException {
         stubFor(get(urlEqualTo(urlPath)).willReturn(aResponse().withStatus(responseCode)
-                .withHeader(HttpHeader.CONTENT_TYPE.asString(), contentType).withBody(responseContent)));
+                .withHeader("Content-Type", contentType).withBody(responseContent)));
     }
 
     private String getClasspathJSONContent(String path) throws IOException {

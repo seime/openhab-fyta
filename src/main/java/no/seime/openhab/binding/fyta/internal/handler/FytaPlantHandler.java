@@ -204,21 +204,22 @@ public class FytaPlantHandler extends BaseThingHandler {
                 break;
             case BindingConstants.CHANNEL_THUMBNAIL:
                 String cachedThumbnailUrl = storage.get(STORAGE_KEY_THUMBNAIL);
-                if (plant.userThumbnailPath != null & !plant.userThumbnailPath.equals(cachedThumbnailUrl)) {
-                    try {
-                        logger.debug("[{}] Fetching thumbnail image {}", macAddress, plant.userThumbnailPath);
-
-                        RawType image = accountHandler.getRestApiClient().getImage(plant.userThumbnailPath);
-                        updateState(channelUID, image);
-                    } catch (RestCommunicationException e) {
-                        logger.warn("[{}] Error fetching thumbnail image {}", plant.userThumbnailPath, macAddress, e);
-                        updateState(channelUID, UnDefType.UNDEF);
-                    }
-                }
-                if (plant.userThumbnailPath != null && !plant.userThumbnailPath.equals(cachedThumbnailUrl)) {
-                    storage.put(STORAGE_KEY_THUMBNAIL, plant.userThumbnailPath);
-                } else {
+                String thumbnailPath = plant.userThumbnailPath;
+                if (thumbnailPath == null) {
+                    updateState(channelUID, UnDefType.UNDEF);
                     storage.remove(STORAGE_KEY_THUMBNAIL);
+                } else if (!thumbnailPath.equals(cachedThumbnailUrl)) {
+                    try {
+                        logger.debug("[{}] Fetching thumbnail image {}", macAddress, thumbnailPath);
+
+                        RawType image = accountHandler.getRestApiClient().getImage(thumbnailPath);
+                        updateState(channelUID, image);
+                        storage.put(STORAGE_KEY_THUMBNAIL, thumbnailPath);
+                    } catch (RestCommunicationException e) {
+                        logger.warn("[{}] Error fetching thumbnail image {}", macAddress, thumbnailPath, e);
+                        updateState(channelUID, UnDefType.UNDEF);
+                        storage.remove(STORAGE_KEY_THUMBNAIL);
+                    }
                 }
                 break;
 

@@ -12,24 +12,18 @@
  */
 package no.seime.openhab.binding.fyta.internal.comm;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
+import java.time.Duration;
 
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.client.api.ContentResponse;
-import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.client.util.BytesContentProvider;
-import org.eclipse.jetty.http.HttpHeader;
-import org.eclipse.jetty.http.HttpMethod;
-import org.eclipse.jetty.http.HttpStatus;
-import org.openhab.core.i18n.ConfigurationException;
 import org.openhab.core.library.types.RawType;
 import org.openhab.core.thing.ThingUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -43,11 +37,17 @@ import no.seime.openhab.binding.fyta.internal.dto.AbstractRequest;
  * @author Arne Seime - Initial contribution
  */
 public class RestApiClient {
-    private final Logger logger = LoggerFactory.getLogger(RestApiClient.class);
     public static final String HEADER_CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static String API_ENDPOINT = "https://web.fyta.de/api";
 
     public static String IMAGE_ENDPOINT = null; // Only used for stubbing
+
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(30);
+
+    private static final int HTTP_OK = 200;
+    private static final int HTTP_NOT_FOUND = 404;
+    private static final int HTTP_REQUEST_TIMEOUT = 408;
+    private static final int HTTP_TOO_MANY_REQUESTS = 429;
 
     private HttpClient httpClient;
 
@@ -55,86 +55,92 @@ public class RestApiClient {
     private String accessToken = null;
 
     private Gson gson;
-    @Nullable
-    private RequestLogger requestLogger = null;
+
+    private RequestLogger requestLogger;
 
     public RestApiClient(HttpClient httpClient, Gson gson) {
         this.httpClient = httpClient;
         this.gson = gson;
+        this.requestLogger = new RequestLogger("fyta", gson);
     }
 
     public void init(ThingUID bridgeUid) {
         this.requestLogger = new RequestLogger(bridgeUid.getId(), gson);
     }
 
-    private Request buildRequest(final AbstractRequest req) {
-        Request request = httpClient.newRequest(API_ENDPOINT + req.getRequestUrl()).method(req.getMethod());
-
-        addRequestHeaders(request);
-
-        if (!req.getMethod().contentEquals(HttpMethod.GET.asString())) { // POST, PATCH, PUT
-            final String reqJson = gson.toJson(req);
-            request = request.content(new BytesContentProvider(reqJson.getBytes(StandardCharsets.UTF_8)),
-                    HEADER_CONTENT_TYPE_APPLICATION_JSON);
-        }
-
-        requestLogger.listenTo(request, new String[] {});
-
-        return request;
-    }
-
-    private void addRequestHeaders(Request request) {
-        request.getHeaders().remove(HttpHeader.USER_AGENT);
-        request.getHeaders().remove(HttpHeader.ACCEPT);
-        request.header(HttpHeader.USER_AGENT, "openHAB");
-        request.header(HttpHeader.ACCEPT, HEADER_CONTENT_TYPE_APPLICATION_JSON);
-        request.header(HttpHeader.CONTENT_TYPE, HEADER_CONTENT_TYPE_APPLICATION_JSON);
+    private HttpRequest.Builder newRequestBuilder(String url) {
+        HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url)).timeout(REQUEST_TIMEOUT)
+                .header("User-Agent", "openHAB").header("Accept", HEADER_CONTENT_TYPE_APPLICATION_JSON);
         if (accessToken != null) {
-            request.header(HttpHeader.AUTHORIZATION, "Bearer " + accessToken);
+            builder.header("Authorization", "Bearer " + accessToken);
         }
+        return builder;
     }
 
     public <T> T sendRequest(final AbstractRequest req, final Type responseType) throws RestCommunicationException {
+        final String method = req.getMethod();
+        final HttpRequest.Builder builder = newRequestBuilder(API_ENDPOINT + req.getRequestUrl());
 
+        @Nullable
+        String reqJson = null;
+        if ("GET".equals(method)) {
+            builder.GET();
+        } else { // POST, PATCH, PUT
+            reqJson = gson.toJson(req);
+            builder.header("Content-Type", HEADER_CONTENT_TYPE_APPLICATION_JSON).method(method,
+                    HttpRequest.BodyPublishers.ofString(reqJson, StandardCharsets.UTF_8));
+        }
+        final HttpRequest httpRequest = builder.build();
+
+        final HttpResponse<String> response;
+        final long id = requestLogger.logRequest(httpRequest, reqJson);
         try {
-
-            return sendRequestInternal(buildRequest(req), req, responseType);
-        } catch (InterruptedException | TimeoutException | ExecutionException | RestCommunicationException e) {
+            response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RestCommunicationException(String.format("Error sending request to server: %s", e.getMessage()),
                     e);
+        } catch (IOException e) {
+            throw new RestCommunicationException(
+                    String.format("Exception caught trying to communicate with API: %s", e.getMessage()), e);
         }
-    }
-
-    public <T> T sendRequestInternal(final Request httpRequest, final AbstractRequest req, final Type responseType)
-            throws ExecutionException, InterruptedException, TimeoutException, RestCommunicationException {
+        requestLogger.logResponse(id, response, response.body());
 
         try {
-            final ContentResponse contentResponse = httpRequest.send();
-
-            final String responseJson = contentResponse.getContentAsString();
-            if (contentResponse.getStatus() == HttpStatus.OK_200) {
-                final JsonObject o = JsonParser.parseString(responseJson).getAsJsonObject();
-                if (o.has("error")) {
-                    throw new RestCommunicationException(req, o.get("error").getAsString(),
-                            contentResponse.getStatus());
-                } else {
-                    return gson.fromJson(responseJson, responseType);
-                }
-            } else if (contentResponse.getStatus() == HttpStatus.NOT_FOUND_404) {
-                throw new ConfigurationException("User or plant not found, check configuration");
-            } else if (contentResponse.getStatus() == HttpStatus.REQUEST_TIMEOUT_408) {
-                throw new RestCommunicationException(req, "The operation timed out", contentResponse.getStatus());
-            } else if (contentResponse.getStatus() == HttpStatus.TOO_MANY_REQUESTS_429) {
-                throw new RestCommunicationException(req, "Too many requests, reduce polling time",
-                        contentResponse.getStatus());
-            } else {
-                throw new RestCommunicationException(req, "Error sending request to server. Server responded with "
-                        + contentResponse.getStatus() + " and payload " + responseJson, contentResponse.getStatus());
-            }
+            return handleResponse(response, req, responseType);
+        } catch (RestCommunicationException e) {
+            throw e;
         } catch (Exception e) {
             throw new RestCommunicationException(
                     String.format("Exception caught trying to communicate with API: %s", e.getMessage()), e);
+        }
+    }
+
+    private <T> T handleResponse(final HttpResponse<String> response, final AbstractRequest req,
+            final Type responseType) throws RestCommunicationException {
+        final int status = response.statusCode();
+        final String responseJson = response.body();
+        if (status == HTTP_OK) {
+            final JsonObject o = JsonParser.parseString(responseJson).getAsJsonObject();
+            if (o.has("error")) {
+                throw new RestCommunicationException(req, o.get("error").getAsString(), status);
+            } else {
+                final T result = gson.fromJson(responseJson, responseType);
+                if (result == null) {
+                    throw new RestCommunicationException(req, "Empty response from server", status);
+                }
+                return result;
+            }
+        } else if (status == HTTP_NOT_FOUND) {
+            throw new RestCommunicationException(req, "User or plant not found, check configuration", status);
+        } else if (status == HTTP_REQUEST_TIMEOUT) {
+            throw new RestCommunicationException(req, "The operation timed out", status);
+        } else if (status == HTTP_TOO_MANY_REQUESTS) {
+            throw new RestCommunicationException(req, "Too many requests, reduce polling time", status);
+        } else {
+            throw new RestCommunicationException(req,
+                    "Error sending request to server. Server responded with " + status + " and payload " + responseJson,
+                    status);
         }
     }
 
@@ -143,18 +149,23 @@ public class RestApiClient {
     }
 
     public RawType getImage(String userThumbnailPath) throws RestCommunicationException {
+        if (IMAGE_ENDPOINT != null) {
+            userThumbnailPath = IMAGE_ENDPOINT + userThumbnailPath; // Only used for stubbing
+        }
         try {
-            if (IMAGE_ENDPOINT != null) {
-                userThumbnailPath = IMAGE_ENDPOINT + userThumbnailPath; // Only used for stubbing
+            HttpRequest request = newRequestBuilder(userThumbnailPath).GET().build();
+            HttpResponse<byte[]> image = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
+            if (image.statusCode() != HTTP_OK) {
+                throw new RestCommunicationException(String.format("Server responded with %d fetching image %s",
+                        image.statusCode(), userThumbnailPath));
             }
-
-            Request request = httpClient.newRequest(userThumbnailPath).method(HttpMethod.GET);
-            addRequestHeaders(request);
-            ContentResponse image = request.send();
-            String contentType = image.getHeaders().get(HttpHeader.CONTENT_TYPE);
-            return new RawType(image.getContent(), contentType);
-
-        } catch (InterruptedException | TimeoutException | ExecutionException e) {
+            String contentType = image.headers().firstValue("Content-Type").orElse(RawType.DEFAULT_MIME_TYPE);
+            return new RawType(image.body(), contentType);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RestCommunicationException(
+                    String.format("Exception caught trying fetch image: %s", e.getMessage()), e);
+        } catch (IOException | IllegalArgumentException e) {
             throw new RestCommunicationException(
                     String.format("Exception caught trying fetch image: %s", e.getMessage()), e);
         }
