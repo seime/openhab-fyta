@@ -34,9 +34,6 @@ The release name is the same as the version openHAB reports, so you can find the
 253 │ Active │  80 │ 4.1.0.202611231545 │ Seime Add-ons :: Bundles :: Fyta Binding
 ```
 
-For openHAB 3.x use the unmaintained
-[`latest_oh3`](https://github.com/seime/openhab-fyta/releases/tag/latest_oh3).
-
 ## Supported Things
 
 * `account` = Fyta account

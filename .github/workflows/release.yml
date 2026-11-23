@@ -126,8 +126,6 @@ jobs:
             echo "Both jars are identical: \`$STABLE_JAR_NAME\` has a fixed name for the permanent link"
             echo "https://github.com/$GH_REPO/releases/latest/download/$STABLE_JAR_NAME"
             echo
-            echo "Running openHAB 3.x? Use [latest_oh3](https://github.com/$GH_REPO/releases/tag/latest_oh3)."
-            echo
             echo "## Changes"
             if [ -n "$previous" ] && git rev-parse -q --verify "refs/tags/$previous" > /dev/null; then
               git log --format='- %h %s (%an)' "$previous..$GITHUB_SHA"
@@ -148,7 +146,7 @@ jobs:
       - name: Prune old versioned releases
         run: |
           cutoff=$(date -u -d "-${KEEP_DAYS} days" +%s)
-          # Only bundle-version releases (e.g. 4.1.0.202611231545); latest, latest_oh3 and latest_oh4 are never touched
+          # Only bundle-version releases (e.g. 4.1.0.202611231545); other tags are never touched
           gh release list --limit 1000 --json tagName,createdAt,isLatest \
             --jq '[.[] | select(.tagName | test("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]{12}$"))]
                   | sort_by(.createdAt) | reverse | .[]
