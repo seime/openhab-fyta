@@ -16,17 +16,6 @@
 
   <name>Seime Add-ons :: Bundles :: Fyta Binding</name>
 
-  <properties>
-    <oh.java.version>17</oh.java.version>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>${oh.java.version}</maven.compiler.target>
-    <maven.compiler.compilerVersion>${oh.java.version}</maven.compiler.compilerVersion>
-    <spotless.version>2.36.0</spotless.version>
-
-  </properties>
-
-
-
   <distributionManagement>
     <snapshotRepository>
       <id>github</id>
@@ -43,25 +32,11 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.28</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>com.github.tomakehurst</groupId>
       <artifactId>wiremock-standalone</artifactId>
       <version>2.23.0</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
-      <version>4.2.0</version>
-      <scope>test</scope>
-    </dependency>
-
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -135,7 +110,5 @@
       </build>
     </profile>
   </profiles>
-
-
 
 </project>
