@@ -51,7 +51,7 @@ public class FytaAccountHandler extends BaseBridgeHandler {
     private static final int MAX_COMMUNICATION_ERRORS = 20;
     private static final long REFRESH_INTERVAL_SECONDS = 3600;
     private final Logger logger = LoggerFactory.getLogger(FytaAccountHandler.class);
-    private Optional<ScheduledFuture<?>> statusFuture = Optional.empty();
+    private volatile Optional<ScheduledFuture<?>> statusFuture = Optional.empty();
     private GetPlantsResponse model;
     @NonNullByDefault({})
     AccountConfiguration config;
@@ -63,6 +63,8 @@ public class FytaAccountHandler extends BaseBridgeHandler {
     private Instant accessTokenExpiry;
 
     private int communicationErrorCounter = 0;
+
+    private volatile boolean disposed = true;
 
     public FytaAccountHandler(Bridge thing, RestApiClient restApiClient) {
         super(thing);
@@ -79,22 +81,35 @@ public class FytaAccountHandler extends BaseBridgeHandler {
     public void initialize() {
         // Stop any pending updates if any
         stopScheduledUpdate();
+        disposed = false;
 
         updateStatus(ThingStatus.UNKNOWN);
         AccountConfiguration loadedConfig = getConfigAs(AccountConfiguration.class);
         config = loadedConfig;
         apiBridge.init(thing.getUID());
-        scheduler.submit(this::doPoll);
+        schedulePoll(0);
     }
 
     @Override
     public void dispose() {
+        disposed = true;
         stopScheduledUpdate();
         super.dispose();
     }
 
-    public synchronized void doPoll() {
+    private synchronized void schedulePoll(long delaySeconds) {
+        if (disposed) {
+            return;
+        }
+        // Do not interrupt: this may be called from within the currently running poll
+        statusFuture.ifPresent(future -> future.cancel(false));
+        statusFuture = Optional.of(scheduler.schedule(this::doPoll, delaySeconds, TimeUnit.SECONDS));
+    }
 
+    public synchronized void doPoll() {
+        if (disposed) {
+            return;
+        }
         try {
             if (accessToken == null || accessTokenExpiry == null || accessTokenExpiry
                     .isBefore(Instant.now().plus(REFRESH_INTERVAL_SECONDS * 2, ChronoUnit.SECONDS))) {
@@ -111,12 +126,18 @@ public class FytaAccountHandler extends BaseBridgeHandler {
             final GetPlantsRequest getPlantsRequest = new GetPlantsRequest();
             model = apiBridge.sendRequest(getPlantsRequest, new TypeToken<GetPlantsResponse>() {
             }.getType());
+            if (disposed) {
+                return;
+            }
             communicationErrorCounter = 0;
             updateStatus(ThingStatus.ONLINE);
 
-            statusFuture = Optional.of(scheduler.schedule(this::doPoll, REFRESH_INTERVAL_SECONDS, TimeUnit.SECONDS));
+            schedulePoll(REFRESH_INTERVAL_SECONDS);
 
         } catch (RestCommunicationException e) {
+            if (disposed) {
+                return;
+            }
             logger.warn("Error communicating with Fyta server", e);
             if (e.getHttpStatus() == 404) {
                 accessToken = null;
@@ -128,7 +149,7 @@ public class FytaAccountHandler extends BaseBridgeHandler {
                 // Schedule a new attempt
                 communicationErrorCounter++;
                 if (communicationErrorCounter < MAX_COMMUNICATION_ERRORS) {
-                    statusFuture = Optional.of(scheduler.schedule(this::doPoll, 600, TimeUnit.SECONDS));
+                    schedulePoll(600);
                 }
 
             }

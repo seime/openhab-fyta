@@ -62,6 +62,8 @@ public class FytaPlantHandler extends BaseThingHandler {
 
     private Optional<ScheduledFuture<?>> statusFuture = Optional.empty();
 
+    private volatile boolean disposed = true;
+
     @Nullable
     private Plant plant = null;
 
@@ -73,6 +75,7 @@ public class FytaPlantHandler extends BaseThingHandler {
     @Override
     public void initialize() {
         stopScheduledUpdate();
+        disposed = false;
 
         PlantConfiguration config = getConfigAs(PlantConfiguration.class);
         updateStatus(ThingStatus.UNKNOWN);
@@ -110,8 +113,12 @@ public class FytaPlantHandler extends BaseThingHandler {
             thing.getChannels().forEach(channel -> updateState(channel.getUID(), UnDefType.UNDEF));
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
             stopScheduledUpdate();
-        } else {
-            scheduler.submit(this::initialize);
+        } else if (!disposed) {
+            scheduler.execute(() -> {
+                if (!disposed) {
+                    initialize();
+                }
+            });
         }
     }
 
@@ -127,11 +134,25 @@ public class FytaPlantHandler extends BaseThingHandler {
         });
     }
 
+    /**
+     * (Re)schedules the single polling task for this thing, replacing any pending one.
+     */
+    private synchronized void schedulePoll(long delaySeconds) {
+        if (disposed) {
+            return;
+        }
+        // Do not interrupt: this may be called from within the currently running poll
+        statusFuture.ifPresent(future -> future.cancel(false));
+        statusFuture = Optional.of(scheduler.schedule(this::loadPlantDetails, delaySeconds, TimeUnit.SECONDS));
+    }
+
     @Override
     public void dispose() {
-        super.dispose();
+        disposed = true;
         stopScheduledUpdate();
+        // Callback is still valid while dispose() runs
         thing.getChannels().forEach(channel -> updateState(channel.getUID(), UnDefType.UNDEF));
+        super.dispose();
     }
 
     @Override
@@ -140,6 +161,9 @@ public class FytaPlantHandler extends BaseThingHandler {
     }
 
     public void loadPlantDetails() {
+        if (disposed) {
+            return;
+        }
         Optional<Plant> optionalPlant = accountHandler.getModel().findDeviceByMacAddress(macAddress);
         if (optionalPlant.isPresent()) {
             try {
@@ -149,6 +173,9 @@ public class FytaPlantHandler extends BaseThingHandler {
                         .sendRequest(getDeviceDetailsRequest, new TypeToken<GetPlantDetailsResponse>() {
                         }.getType());
 
+                if (disposed) {
+                    return;
+                }
                 plant = response.plant;
 
                 Map<String, String> properties = optionalPlant.get().getThingProperties();
@@ -169,15 +196,17 @@ public class FytaPlantHandler extends BaseThingHandler {
                 logger.debug("[{}] Next polling at {}", macAddress, ZonedDateTime
                         .ofInstant(Instant.now().plusSeconds(delayUntilNextPolling), ZoneId.systemDefault()));
 
-                statusFuture = Optional
-                        .of(scheduler.schedule(this::loadPlantDetails, delayUntilNextPolling, TimeUnit.SECONDS));
+                schedulePoll(delayUntilNextPolling);
 
             } catch (RestCommunicationException ex) {
+                if (disposed) {
+                    return;
+                }
                 updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
                         "Error retrieving data from server: " + ex.getMessage());
                 // Undef all channels if error
                 thing.getChannels().forEach(channel -> updateState(channel.getUID(), UnDefType.UNDEF));
-                statusFuture = Optional.of(scheduler.schedule(this::loadPlantDetails, 60, TimeUnit.SECONDS));
+                schedulePoll(60);
 
             }
         } else {
@@ -189,10 +218,15 @@ public class FytaPlantHandler extends BaseThingHandler {
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
-        if (plant != null) {
-            updateChannel(plant, channelUID);
-        } else {
-            loadPlantDetails();
+        if (disposed) {
+            return;
+        }
+        Plant localPlant = plant;
+        if (localPlant != null) {
+            updateChannel(localPlant, channelUID);
+        } else if (accountHandler != null && macAddress != null) {
+            // Not loaded yet: trigger the (single) polling task instead of starting a new polling chain
+            schedulePoll(0);
         }
     }
 
