@@ -8,7 +8,7 @@
     </encoder>
   </appender>
 
-  <logger name="org.openhab.binding.fyta" level="debug" additivity="false">
+  <logger name="no.seime.openhab.binding.fyta" level="debug" additivity="false">
     <appender-ref ref="STDOUT"/>
   </logger>
 
