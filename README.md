@@ -9,6 +9,34 @@ This binding links [Fyta Beam plant sensors](https://fyta.de/en) via the cloud.
 
 [<img src="https://github.com/seime/support-me/blob/main/beer_me.png" width=150>](https://buymeacoffee.com/arnes)
 
+## Installation
+
+Copy the jar file
+https://github.com/seime/openhab-fyta/releases/latest/download/no.seime.openhab.binding.fyta.jar into your `addons`
+folder, or install from the Marketplace (see [Releases](#releases) for other versions).
+
+## Releases
+
+Every change to `master` is built and published as a
+[GitHub release](https://github.com/seime/openhab-fyta/releases) for openHAB 4.1 and newer (including 5.x), named
+after the bundle version, e.g. `4.1.0.202611231545`. The newest one is marked *Latest*. Older ones are kept
+for 90 days (the newest 5 are always kept), so you can pin or roll back to a specific build.
+
+Each release contains the same jar under two names: `no.seime.openhab.binding.fyta-<version>.jar` and
+`no.seime.openhab.binding.fyta.jar`. The second one gives a permanent link to the newest build, which is what
+the Marketplace uses:
+https://github.com/seime/openhab-fyta/releases/latest/download/no.seime.openhab.binding.fyta.jar
+
+The release name is the same as the version openHAB reports, so you can find the release you are running with
+`bundle:list | grep Fyta` in the openHAB console:
+
+```
+253 │ Active │  80 │ 4.1.0.202611231545 │ Seime Add-ons :: Bundles :: Fyta Binding
+```
+
+For openHAB 3.x use the unmaintained
+[`latest_oh3`](https://github.com/seime/openhab-fyta/releases/tag/latest_oh3).
+
 ## Supported Things
 
 * `account` = Fyta account
